@@ -1,0 +1,51 @@
+# CHANGELOG
+
+## 2.0 - 2026-09-21
+
+- Promoted the clean E5 cloud candidate as the GitHub pre-development baseline candidate.
+- Added the top-level CHGO project context, definition, Constitution 2 and Core Philosophy 3 under `canonical/governance/`.
+- Recorded modular monorepo boundaries for CHGO Engine, Scripture, Prayer and Church OS.
+- Added neutral product and service placeholders so consumer brand changes do not force technical renaming.
+- Added domain ownership and source-admission registries.
+- Kept the 1,613-file legacy source archive outside the executable repository; no HWP, nested ZIP, cache or credential material was bulk-admitted.
+- Preserved runtime and approval truth: static PASS does not convert NOT_RUN or OPEN gates into PASS.
+
+## E5 Cloud PostgreSQL Runtime Candidate 1.0 - 2026-09-14
+
+- Added a manually triggered GitHub Actions PostgreSQL 16 disposable runtime.
+- Added real V001-V012 execution, V010 replay and dump/drop/recreate/restore evidence capture.
+- Added hashed evidence packaging with 90-day artifact retention.
+- Marked API and Vault provider/KMS runtime as `BLOCKED_NO_RUNTIME_IMPLEMENTATION`; E5 remains `OPEN`.
+- Excluded mistakenly nested historical B04 update folders from the clean candidate.
+- Did not modify Canonical artifacts.
+
+## E5 Execution-Ready Candidate 1.0 - 2026-09-14
+
+- Added cross-gate static regression orchestration for B-04, PDV-008 and C-02.
+- Registered B-02, B-03 and seven blocking regression suites for runtime execution.
+- Added rollback triggers, recovery boundaries and seven rollback controls.
+- Kept E5 `OPEN`; runtime regression, rollback proof and reviewer approval remain `NOT_RUN/PENDING`.
+- Did not modify Canonical artifacts.
+
+## C-02 Candidate 1.0 - 2026-09-14
+
+- Added the production privacy policy decision record and ADR.
+- Added 14 controlled decisions and four launch-market compliance rows.
+- Added a machine-readable evidence record and validation script.
+- Kept production `OPEN` pending accountable approvals and runtime evidence.
+- Did not modify Canonical artifacts.
+
+## 1.0 - 2026-09-10
+
+-   Created the Clean Repository physical folder structure.
+-   Promoted only a curated set of governance, canonical, architecture,
+    product, privacy, DB, API, test and backlog artifacts.
+-   Added CRAVS 1.0, Bootstrap 27 Re-Admission Matrix, API Versioning
+    ADR 1.0, Church OS 2.x -\> 3.0 Carry-Forward Matrix, and Church OS
+    Product & Experience Architecture 3.0.
+-   Preserved DB migrations V001-V010 and validation V011-V012 as
+    **CANDIDATE-B02**, not runtime-passed.
+-   Preserved Church OS OpenAPI Delta 2.0 as **CANDIDATE-B04**, not
+    final consolidated v2.
+-   Preserved MVP acceptance matrix as **NOT_RUN**, not evidence.
+-   Repository state set to **PRE-FREEZE CLEAN DEVELOPMENT REPOSITORY**.

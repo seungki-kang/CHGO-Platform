@@ -1,0 +1,15 @@
+import json, sys, re
+if len(sys.argv)!=2: raise SystemExit("usage: python validate_sdk_manifest.py sdk-manifest.json")
+x=json.load(open(sys.argv[1],encoding="utf-8"))
+errors=[]
+major=str(x.get("supported_api_major",""))
+base=str(x.get("base_url",""))
+sdkv=str(x.get("sdk_version",""))
+sha=str(x.get("openapi_sha256",""))
+if major not in ("v1","v2"): errors.append("supported_api_major must be v1 or v2")
+if "/api/latest" in base or base.rstrip("/").endswith("/api"): errors.append("unversioned/latest API base forbidden")
+if major and base and f"/api/{major}" not in base: errors.append("base_url does not match declared API major")
+if not re.match(r"^\d+\.\d+\.\d+([+-].+)?$",sdkv): errors.append("sdk_version must be SemVer-like")
+if not re.match(r"^[0-9a-f]{64}$",sha): errors.append("openapi_sha256 must be 64 lowercase hex chars")
+print(json.dumps({"status":"PASS" if not errors else "FAIL","errors":errors},indent=2))
+raise SystemExit(1 if errors else 0)

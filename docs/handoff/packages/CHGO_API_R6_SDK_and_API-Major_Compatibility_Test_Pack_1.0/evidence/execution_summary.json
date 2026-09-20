@@ -1,0 +1,9 @@
+{
+  "artifact_id": "CHGO-API-R6-SDK-01",
+  "version": "1.0",
+  "source_contract_tests": "PASS",
+  "pytest_output": ".......ss                                                                [100%]\n7 passed, 2 skipped in 1.25s",
+  "actual_sdk_execution": "NOT_RUN / SKIPPED \u2014 no SDK/client artifact supplied",
+  "negative_cases_defined": 20,
+  "b04": "OPEN"
+}

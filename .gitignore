@@ -1,0 +1,26 @@
+# Local / IDE
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/
+*.tmp
+*.bak
+
+# Secrets / environment
+.env
+.env.*
+!.env.example
+secrets/
+*.pem
+*.key
+
+# Build / runtime
+__pycache__/
+.pytest_cache/
+node_modules/
+dist/
+build/
+coverage/
+
+# Generated local evidence
+evidence/local/

@@ -1,0 +1,18 @@
+{
+  "artifact_id": "CHGO-B04-OPENAPI-CONSOLIDATED-CANDIDATE-1.0",
+  "date": "2026-09-14",
+  "lifecycle": "CANDIDATE",
+  "decision": "STATIC_BASELINE_READY",
+  "b04_gate": "OPEN",
+  "runtime_execution": "NOT_RUN",
+  "openapi_path": "api/openapi/v2/CHGO_Public_and_Headless_OpenAPI_v2_Consolidated_Baseline_1.0.yaml",
+  "openapi_sha256": "8649ab9ca7e643c2174624b5a974198f298e11875c7887747ddf26479f6dc67c",
+  "openapi_size_bytes": 73155,
+  "paths": 42,
+  "operations": 48,
+  "schemas": 37,
+  "compatibility_rows": 48,
+  "canonical_modified": false,
+  "promotion_rule": "B-04 PASS requires R1-R8 runtime, migration, canary, rollback, and approval evidence.",
+  "pdv008_static_contract": "20 PASS"
+}

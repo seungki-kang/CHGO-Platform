@@ -1,0 +1,21 @@
+{
+  "artifact_id": "CHGO-DH-FPRG-01",
+  "version": "1.0",
+  "date": "2026-09-12",
+  "decision": "CONDITIONAL GO FOR IMPLEMENTATION / NO-GO FOR FINAL FREEZE",
+  "blocking_final_freeze": [
+    "B-02",
+    "B-03",
+    "B-04",
+    "C-02"
+  ],
+  "rules": [
+    "Candidate != Evidence",
+    "Test Plan != Test Evidence",
+    "NOT_RUN != PASS",
+    "Raw Diary != Growth Evidence",
+    "Membership != Vault Permission",
+    "Pastor Aggregate Only",
+    "Coach Dual Gate"
+  ]
+}

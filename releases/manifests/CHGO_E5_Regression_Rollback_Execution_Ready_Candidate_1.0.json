@@ -1,0 +1,9 @@
+{
+  "release_id": "CHGO-E5-REGRESSION-ROLLBACK-EXECUTION-READY-1.0",
+  "date": "2026-09-14",
+  "base": "CHGO-C02-PRIVACY-POLICY-CANDIDATE-1.0",
+  "status": "EXECUTION_READY",
+  "production_gate": "OPEN",
+  "canonical_change": "NONE",
+  "next_action": "Run E5 in an approved disposable runtime, attach immutable evidence, prove rollback, then proceed to E6 final evidence manifest and reviewer approval"
+}

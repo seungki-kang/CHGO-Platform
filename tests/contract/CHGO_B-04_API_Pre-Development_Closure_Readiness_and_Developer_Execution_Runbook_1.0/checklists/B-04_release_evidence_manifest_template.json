@@ -1,0 +1,22 @@
+{
+  "artifact_id": "CHGO-B04-RUNBOOK-01",
+  "version": "1.0",
+  "date": "2026-09-12",
+  "b04_state": "OPEN / PRE-DEVELOPMENT READY",
+  "required_release_evidence": {
+    "environment_identity": null,
+    "build_commit": null,
+    "v1_openapi_sha256": null,
+    "v2_openapi_sha256": null,
+    "R1_route_fingerprint": null,
+    "R2_consumer_inventory": null,
+    "R3_auth_negative": null,
+    "R4_vault_privacy_negative": null,
+    "R5_webhook": null,
+    "R6_sdk": null,
+    "canary_leak_scan": null,
+    "rollback_test": null,
+    "approvals": []
+  },
+  "promotion_rule": "B-04 PASS only when every mandatory runtime evidence reference is populated and reviewed; NOT_RUN/PENDING/PARTIAL cannot be promoted to PASS."
+}

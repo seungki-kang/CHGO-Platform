@@ -1,0 +1,76 @@
+{
+  "artifact_id": "CHGO-RSF-VALIDATION-1.0",
+  "date": "2026-09-13",
+  "lifecycle": "REPOSITORY_STRUCTURE_FREEZE_CANDIDATE",
+  "recommendation": "APPROVE_STRUCTURE_ONLY",
+  "overall_development_baseline": "NO-GO",
+  "open_gates": [
+    "B-02",
+    "B-03",
+    "B-04",
+    "C-02"
+  ],
+  "checks": [
+    {
+      "gate_id": "RSF-01",
+      "check_name": "단일 활성 루트",
+      "result": "PASS",
+      "evidence": "CHGO-Platform/"
+    },
+    {
+      "gate_id": "RSF-02",
+      "check_name": "허용 최상위 폴더",
+      "result": "PASS",
+      "evidence": "예외 없음"
+    },
+    {
+      "gate_id": "RSF-03",
+      "check_name": "필수 경로 존재",
+      "result": "PASS",
+      "evidence": "누락 없음"
+    },
+    {
+      "gate_id": "RSF-04",
+      "check_name": "중첩 저장소 부재",
+      "result": "PASS",
+      "evidence": "발견 0건"
+    },
+    {
+      "gate_id": "RSF-05",
+      "check_name": "활성 루트 내부 ZIP 부재",
+      "result": "PASS",
+      "evidence": "발견 0건"
+    },
+    {
+      "gate_id": "RSF-06",
+      "check_name": "캐시/바이트코드 부재",
+      "result": "PASS",
+      "evidence": "발견 0건"
+    },
+    {
+      "gate_id": "RSF-07",
+      "check_name": "비승인 환경파일 부재",
+      "result": "PASS",
+      "evidence": "발견 0건"
+    },
+    {
+      "gate_id": "RSF-08",
+      "check_name": "Canonical 보존",
+      "result": "PASS",
+      "evidence": "사전 기준과 동일; 파일 4개"
+    },
+    {
+      "gate_id": "RSF-09",
+      "check_name": "매니페스트 SHA-256 검증",
+      "result": "PASS",
+      "evidence": "280개 항목 일치"
+    }
+  ],
+  "canonical_sha256": {
+    "canonical/jesuslife/S0-02_JesusLife_Canonical_Scope_Meaning_Freeze_1.0.docx": "db50723a7cad7956be2388a7015f611c883d40f038bd1a6750279f3b6a7aa20e",
+    "canonical/jesuslife/S0-03_JesusLife_Ecclesiology_Extension_1.0.docx": "2e7d8e6344366e353f8f3e634ce87fae8435ee71596a38f0d89910829ae3f57f",
+    "canonical/registry/.gitkeep": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "canonical/sources/README.md": "498a1c07d8fa2ab80e2121aa68e0e28a3131d9c4063bc732905c0c1c2ecd8c07"
+  },
+  "manifest_entries": 280
+}

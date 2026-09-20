@@ -1,0 +1,10 @@
+CHGO B-02 execution attempt
+Date: 2026-09-13
+Result: BLOCKED_RUNTIME
+psql: not found
+postgres: not found
+initdb: not found
+docker: not found
+podman: not found
+DATABASE_URL: not configured
+No SQL was executed. No database was created, modified, dropped, or restored.

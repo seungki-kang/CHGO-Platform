@@ -1,0 +1,21 @@
+{
+  "artifact_id": "CHGO-PDV008-EXEC-AUTO-1.0",
+  "date": "2026-09-14",
+  "source_tests": 84,
+  "unique_test_ids": 84,
+  "unique_parent_gates": 84,
+  "pdv7_static_checks": 20,
+  "pdv7_static_pass": 20,
+  "runtime_results": {
+    "NOT_RUN": 84
+  },
+  "decision": "STRUCTURALLY_EXECUTABLE_RUNTIME_BLOCKED",
+  "runtime_blockers": [
+    "No executable Vault/API services",
+    "No PostgreSQL runtime",
+    "No provider sandbox",
+    "No test KMS",
+    "No synthetic identity/tenant fixture"
+  ],
+  "promotion_rule": "Static PASS is not runtime evidence. All applicable tests require controlled execution and evidence before PASS."
+}

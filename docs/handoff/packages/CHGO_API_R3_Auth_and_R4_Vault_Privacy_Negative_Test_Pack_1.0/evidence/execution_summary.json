@@ -1,0 +1,10 @@
+{
+  "artifact_id": "CHGO-API-R3R4-01",
+  "version": "1.0",
+  "date": "2026-09-12",
+  "negative_cases_defined": 18,
+  "pack_integrity_execution": "PASS",
+  "pytest_output": "\u001b[32m.\u001b[0m\u001b[32m.\u001b[0m\u001b[32m.\u001b[0m\u001b[33ms\u001b[0m\u001b[33ms\u001b[0m\u001b[33ms\u001b[0m\u001b[33ms\u001b[0m\u001b[33ms\u001b[0m\u001b[32m                                                                 [100%]\u001b[0m\n\u001b[32m\u001b[32m\u001b[1m3 passed\u001b[0m, \u001b[33m5 skipped\u001b[0m\u001b[32m in 0.07s\u001b[0m\u001b[0m",
+  "runtime_api_execution": "NOT_RUN / SKIPPED (no base URL/credentials)",
+  "b04": "OPEN"
+}

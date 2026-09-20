@@ -1,0 +1,21 @@
+﻿test_id,domain,scenario,expected,severity
+R5-T01,Subscription Auth,Create Headless webhook without service credential,401/403; no subscription created,P0
+R5-T02,Scope,Credential lacks webhook.manage,403; no privilege escalation,P0
+R5-T03,Idempotency,Repeat create with same Idempotency-Key,No duplicate logical subscription,P1
+R5-T04,Schema Version,Delivered event lacks schema_version,Reject/quarantine per implementation policy; never silently assume latest,P0
+R5-T05,Event Identity,Delivered event lacks stable event_id/event_type where contract requires envelope,Reject/quarantine; traceable failure,P0
+R5-T06,Signature,Missing/invalid webhook signature,Reject delivery,P0
+R5-T07,Replay,Valid signed event replayed with same event identity,No duplicate side effect,P0
+R5-T08,Timestamp/Window,Stale delivery outside approved replay window,Reject or quarantine per approved policy,P1
+R5-T09,Vault Privacy,Vault webhook contains raw diary/body/free-text content,Reject/redact; security incident evidence,P0
+R5-T10,Secret Leakage,"Payload/header/error contains token, provider credential or key material",No secret leakage,P0
+R5-T11,Cross-Tenant,Webhook subscription/event routes to wrong tenant,DENY / no cross-tenant delivery,P0
+R5-T12,Unknown Event,Unknown event_type/schema_version combination,Fail safe; no destructive side effect,P1
+R5-T13,Forward Compatibility,Known event with additive unknown fields,Consumer behavior follows declared compatibility policy,P1
+R5-T14,Retry,Receiver 5xx triggers bounded retry behavior,No uncontrolled retry storm; idempotent processing,P1
+R5-T15,4xx Handling,Receiver permanent 4xx,No infinite retry; observable failure,P1
+R5-T16,Endpoint SSRF,Subscription target attempts disallowed/private endpoint,Blocked by approved endpoint policy,P0
+R5-T17,Redirect,Webhook endpoint redirects to unapproved target,No credential/signature leakage; policy enforced,P0
+R5-T18,Observability,Logs/metrics contain raw Vault payload or signing secret,No sensitive payload/secret stored,P0
+R5-T19,Revocation,Disabled/revoked subscription still receives events,No delivery after effective revocation,P0
+R5-T20,Version Rollout,Producer changes schema without version governance,Release blocked / compatibility evidence required,P0

@@ -1,0 +1,13 @@
+﻿id,stage,closure_condition,current_state,evidence_or_dependency,cravs_gate
+B04-01,Authority,Authoritative v1 baseline fixed and hash recorded,READY,Static evidence exists,G1
+B04-02,Authority,Standalone consolidated v2 candidate fixed and hash recorded,READY,Static evidence exists,G1
+B04-03,Compatibility,v1/v2 compatibility model approved: controlled dual-major coexistence,READY-CANDIDATE,ADR + compatibility 1.1,G2/G7
+B04-04,R1,Deployed /api/v1 and /api/v2 routes fingerprinted,NOT_RUN,Needs dev/staging/gateway,G8
+B04-05,R2,Actual consumers and used operations observed,NOT_RUN,Needs traffic/config/code evidence,G8/G9
+B04-06,R3,Authentication/authorization negative tests executed,NOT_RUN,Harness prepared,G6/G8
+B04-07,R4,Vault privacy boundary negative tests executed,NOT_RUN,Harness prepared,G6/G8
+B04-08,R5,Webhook signature/replay/version/privacy tests executed,PARTIAL,Source tests pass; runtime pending,G6/G8
+B04-09,R6,Actual SDK/client major-binding tests executed,PARTIAL,Source tests pass; SDK artifact pending,G7/G8
+B04-10,Migration,Every observed v1 operation classified RETAIN/ADAPTER/REPLACED/RETIRE,NOT_RUN,Depends on R2,G5/G7
+B04-11,Canary,No raw diary/token/key leakage in API/log/webhook evidence,NOT_RUN,Needs runtime,G6/G9
+B04-12,Release,"Release manifest records API major, hashes, test evidence, rollback",PENDING,Final closure gate,G10

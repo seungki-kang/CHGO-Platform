@@ -1,0 +1,11 @@
+﻿gate_id,control,result,evidence
+B03-S01,MVP acceptance register present,PASS,84 cases
+B03-S02,R3/R4 auth and vault privacy matrix,PASS,18 cases
+B03-S03,R5 webhook security matrix,PASS,20 cases
+B03-S04,R6 SDK compatibility matrix,PASS,20 cases
+B03-S05,Test IDs unique within suites,PASS,142 registered cases
+B03-S06,Environment templates contain no values,PASS,No committed CHGO secret values
+B03-S07,Canonical remains out of test mutation scope,PASS,B-03 package writes only evidence and test registers
+B03-S08,Runtime API target and synthetic credentials,BLOCKED,CHGO_API_V2_BASE_URL and synthetic tokens not configured
+B03-S09,Executable MVP implementation,BLOCKED,apps/services are scaffold-only; end-to-end target absent
+B03-S10,Consolidated OpenAPI v2 baseline,BLOCKED,Only Church OS delta exists; B-04 consolidated baseline pending

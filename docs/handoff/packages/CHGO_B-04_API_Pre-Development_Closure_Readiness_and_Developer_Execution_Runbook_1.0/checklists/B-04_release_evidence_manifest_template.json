@@ -1,0 +1,25 @@
+{
+  "artifact_id": "CHGO-B04-RUNBOOK-01",
+  "version": "1.1",
+  "date": "2026-09-14",
+  "b04_state": "OPEN / STATIC BASELINE READY / RUNTIME NOT_RUN",
+  "required_release_evidence": {
+    "environment_identity": null,
+    "build_commit": null,
+    "v1_openapi_sha256": null,
+    "v2_openapi_sha256": "8649ab9ca7e643c2174624b5a974198f298e11875c7887747ddf26479f6dc67c",
+    "R1_route_fingerprint": null,
+    "R2_consumer_inventory": null,
+    "R3_auth_negative": null,
+    "R4_vault_privacy_negative": null,
+    "R5_webhook": null,
+    "R6_sdk": null,
+    "canary_leak_scan": null,
+    "rollback_test": null,
+    "approvals": [],
+    "v2_openapi_path": "api/openapi/v2/CHGO_Public_and_Headless_OpenAPI_v2_Consolidated_Baseline_1.0.yaml",
+    "v2_static_validation": "evidence/pre-release/CHGO_B04_OpenAPI_Static_Validation_1.0.json",
+    "pdv008_static_contract": "tests/acceptance/pdv008/evidence/pdv7_static_contract_results_1.0.csv"
+  },
+  "promotion_rule": "B-04 PASS only when every mandatory runtime evidence reference is populated and reviewed; NOT_RUN/PENDING/PARTIAL cannot be promoted to PASS."
+}

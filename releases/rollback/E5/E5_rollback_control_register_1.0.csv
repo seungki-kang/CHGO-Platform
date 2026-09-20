@@ -1,0 +1,8 @@
+control_id,control,required_state,static_status,runtime_status,evidence_path
+E5-RB01,Known-good archive identified,SHA256_REQUIRED,PASS,NOT_RUN,evidence/pre-release/E5/E5_execution_state_1.0.json
+E5-RB02,Database recovery procedure present,B02_ROLLBACK_SCRIPTS_PRESENT,PASS,NOT_RUN,docs/handoff/packages/B-02_PostgreSQL_Clean_Execution_Pack_2.0/scripts
+E5-RB03,Deletion tombstone reconciliation,REQUIRED,PASS,NOT_RUN,docs/operations/E5_Regression_and_Rollback_Execution_Runbook_1.0.md
+E5-RB04,Share and consent revocation reconciliation,REQUIRED,PASS,NOT_RUN,docs/operations/E5_Regression_and_Rollback_Execution_Runbook_1.0.md
+E5-RB05,Raw Vault DB/log exclusion,REQUIRED,PASS,NOT_RUN,docs/privacy-security/C-02_Production_Privacy_Policy_Decision_Record_1.0.md
+E5-RB06,Post-rollback regression rerun,REQUIRED,PASS,NOT_RUN,tests/regression/E5_regression_execution_register_1.0.csv
+E5-RB07,Reviewer authorization,REQUIRED,PENDING,NOT_RUN,evidence/pre-release/E5/E5_execution_state_1.0.json

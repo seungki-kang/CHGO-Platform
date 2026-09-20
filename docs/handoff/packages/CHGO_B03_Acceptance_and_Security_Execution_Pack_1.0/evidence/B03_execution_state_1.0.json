@@ -1,0 +1,33 @@
+{
+  "artifact_id": "CHGO-B03-EXECUTION-PACK-1.0",
+  "date": "2026-09-14",
+  "gate": "B-03",
+  "scope": "Contract, MVP acceptance, integration, security, privacy, reliability runtime evidence",
+  "registered_cases": 142,
+  "source_counts": {
+    "MVP": 84,
+    "R3_R4": 18,
+    "R5": 20,
+    "R6": 20
+  },
+  "static_validation": "PASS",
+  "runtime_execution": "NOT_RUN",
+  "decision": "BLOCKED_RUNTIME",
+  "b03_gate": "OPEN",
+  "blockers": [
+    "No executable API/MVP target",
+    "No synthetic credentials and fixtures",
+    "B-02 database runtime open",
+    "B-04 consolidated OpenAPI v2 pending"
+  ],
+  "privacy_invariants": [
+    "No raw Life Diary, prayer, repentance, counseling, or third-party text in general logs/events",
+    "Pseudonymized and minimized protected exchanges",
+    "Separated consent and purpose binding",
+    "Retention/deletion/export enforcement",
+    "Tenant and role access denial",
+    "Revocation invalidates future protected access",
+    "Safety handoff follows pre-disclosed policy"
+  ],
+  "promotion_rule": "Mark PASS only after all BLOCKER cases execute successfully in a controlled non-production environment and evidence is reviewed."
+}

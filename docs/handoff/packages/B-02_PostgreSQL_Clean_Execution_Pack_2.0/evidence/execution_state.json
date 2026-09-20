@@ -1,0 +1,19 @@
+{
+  "artifact_id": "CHGO-B02-CLEAN-EXEC-02",
+  "version": "2.1",
+  "date": "2026-09-13",
+  "postgresql_requirement": "16+",
+  "migration_count": 12,
+  "source_integrity": "PASS",
+  "static_validation": "PASS_WITH_RUNTIME_BLOCK",
+  "runtime_execution": "NOT_RUN",
+  "runtime_blocker": "No PostgreSQL client/server/container runtime and no DATABASE_URL in current execution environment.",
+  "b02_gate": "OPEN",
+  "decision": "BLOCKED_RUNTIME",
+  "promotion_rule": "Do not mark PASS until clean apply, V010 replay, validation, rollback/restore, and evidence review all pass.",
+  "changes": [
+    "Fixed Windows migration path",
+    "Added PostgreSQL 16 preflight",
+    "Added Windows rollback/restore fixture"
+  ]
+}

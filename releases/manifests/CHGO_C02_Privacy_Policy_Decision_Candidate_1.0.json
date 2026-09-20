@@ -1,0 +1,9 @@
+{
+  "release_id": "CHGO-C02-PRIVACY-POLICY-CANDIDATE-1.0",
+  "date": "2026-09-14",
+  "base": "CHGO-Platform_PDV008_Executable_Test_Foundation_Candidate_1.0",
+  "status": "READY_FOR_OWNER_APPROVAL",
+  "production_gate": "OPEN",
+  "canonical_change": "NONE",
+  "next_action": "Obtain accountable approvals, complete four regional policy packs, execute privacy controls, then rerun tools/validation/validate_c02_policy.py"
+}

@@ -1,0 +1,10 @@
+﻿gate_id,check_name,result,evidence
+RSF-01,단일 활성 루트,PASS,CHGO-Platform/
+RSF-02,허용 최상위 폴더,PASS,예외 없음
+RSF-03,필수 경로 존재,PASS,누락 없음
+RSF-04,중첩 저장소 부재,PASS,발견 0건
+RSF-05,활성 루트 내부 ZIP 부재,PASS,발견 0건
+RSF-06,캐시/바이트코드 부재,PASS,발견 0건
+RSF-07,비승인 환경파일 부재,PASS,발견 0건
+RSF-08,Canonical 보존,PASS,사전 기준과 동일; 파일 4개
+RSF-09,매니페스트 SHA-256 검증,PASS,280개 항목 일치

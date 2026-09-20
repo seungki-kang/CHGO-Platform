@@ -1,0 +1,2814 @@
+openapi: 3.1.0
+info:
+  title: CHGO Public & Headless OpenAPI v2 Consolidated Baseline
+  version: 2.0.0-candidate.1
+  description: Standalone consolidated candidate for Church OS, public/headless integration and Personal Vault.
+    API major is /api/v2 and is independent of Church OS product version. Candidate is not runtime evidence. Raw
+    Life Diary remains Personal Vault data; church membership is not Vault ownership; pastor access is aggregate-only;
+    Coach access requires authority plus explicit user share; missing/deleted data is not zero growth. Raw diary,
+    prayer, counseling, token, provider credential and key material must never be written to general logs, traces,
+    errors, audit evidence or webhooks.
+  x-artifact-id: CHGO-API-V2-CONSOLIDATED-01
+  x-lifecycle: CANDIDATE
+  x-execution-state: NOT_RUN
+servers:
+- url: /api/v2
+  description: CHGO public/headless API v2 candidate baseline
+tags:
+- name: Today
+- name: Formation
+- name: Mission
+- name: Care
+- name: Prayer
+- name: Privacy Gateway
+- name: CHGO Bridge
+- name: Pastor
+- name: Headless
+- name: Webhooks
+- name: PersonalVault
+- name: VaultEntries
+- name: VaultShares
+- name: VaultExport
+- name: VaultDeletion
+- name: VaultProviders
+- name: VaultRecovery
+- name: CoachShared
+- name: ChurchAggregates
+- name: VaultIntegrations
+security:
+- userBearer: []
+paths:
+  /me/today:
+    get:
+      summary: Get role-aware Today actions
+      tags:
+      - Today
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  items:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/TodayAction'
+                  meta:
+                    $ref: '#/components/schemas/PageMeta'
+        '400':
+          $ref: '#/components/responses/Problem'
+        '401':
+          $ref: '#/components/responses/Problem'
+        '403':
+          $ref: '#/components/responses/Problem'
+        '409':
+          $ref: '#/components/responses/Problem'
+        '422':
+          $ref: '#/components/responses/Problem'
+        '429':
+          $ref: '#/components/responses/Problem'
+        '503':
+          $ref: '#/components/responses/Problem'
+      description: Operational Today remains available when CHGO Engine is unavailable.
+      parameters:
+      - $ref: '#/components/parameters/RequestId'
+      operationId: get_me_today
+  /me/today/{action_id}:
+    patch:
+      summary: Update Today action state
+      tags:
+      - Today
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                type: object
+                additionalProperties: true
+        '400':
+          $ref: '#/components/responses/Problem'
+        '401':
+          $ref: '#/components/responses/Problem'
+        '403':
+          $ref: '#/components/responses/Problem'
+        '409':
+          $ref: '#/components/responses/Problem'
+        '422':
+          $ref: '#/components/responses/Problem'
+        '429':
+          $ref: '#/components/responses/Problem'
+        '503':
+          $ref: '#/components/responses/Problem'
+      parameters:
+      - $ref: '#/components/parameters/RequestId'
+      - name: action_id
+        in: path
+        required: true
+        schema:
+          type: string
+          format: uuid
+      - $ref: '#/components/parameters/IfMatch'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+              - state
+              properties:
+                state:
+                  type: string
+                  enum:
+                  - OPEN
+                  - DISMISSED
+                  - COMPLETED
+      operationId: patch_me_today_action_id
+  /formation/packs:
+    get:
+      summary: List enabled formation packs
+      tags:
+      - Formation
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/FormationPack'
+        '400':
+          $ref: '#/components/responses/Problem'
+        '401':
+          $ref: '#/components/responses/Problem'
+        '403':
+          $ref: '#/components/responses/Problem'
+        '409':
+          $ref: '#/components/responses/Problem'
+        '422':
+          $ref: '#/components/responses/Problem'
+        '429':
+          $ref: '#/components/responses/Problem'
+        '503':
+          $ref: '#/components/responses/Problem'
+      parameters:
+      - $ref: '#/components/parameters/RequestId'
+      operationId: get_formation_packs
+  /formation/journeys:
+    get:
+      summary: List formation journeys
+      tags:
+      - Formation
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/FormationJourney'
+        '400':
+          $ref: '#/components/responses/Problem'
+        '401':
+          $ref: '#/components/responses/Problem'
+        '403':
+          $ref: '#/components/responses/Problem'
+        '409':
+          $ref: '#/components/responses/Problem'
+        '422':
+          $ref: '#/components/responses/Problem'
+        '429':
+          $ref: '#/components/responses/Problem'
+        '503':
+          $ref: '#/components/responses/Problem'
+      parameters:
+      - $ref: '#/components/parameters/RequestId'
+      operationId: get_formation_journeys
+  /formation/journeys/{journey_id}/enrollments:
+    post:
+      summary: Enroll current/authorized participant in formation journey
+      tags:
+      - Formation
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Enrollment'
+        '400':
+          $ref: '#/components/responses/Problem'
+        '401':
+          $ref: '#/components/responses/Problem'
+        '403':
+          $ref: '#/components/responses/Problem'
+        '409':
+          $ref: '#/components/responses/Problem'
+        '422':
+          $ref: '#/components/responses/Problem'
+        '429':
+          $ref: '#/components/responses/Problem'
+        '503':
+          $ref: '#/components/responses/Problem'
+      parameters:
+      - $ref: '#/components/parameters/RequestId'
+      - $ref: '#/components/parameters/IdempotencyKey'
+      - name: journey_id
+        in: path
+        required: true
+        schema:
+          type: string
+          format: uuid
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                person_ref:
+                  type:
+                  - string
+                  - 'null'
+      operationId: post_formation_journeys_journey_id_enrollments
+  /formation/enrollments/{enrollment_id}/reflections:
+    post:
+      summary: Submit visibility-bound formation reflection
+      tags:
+      - Formation
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                type: object
+                additionalProperties: true
+        '400':
+          $ref: '#/components/responses/Problem'
+        '401':
+          $ref: '#/components/responses/Problem'
+        '403':
+          $ref: '#/components/responses/Problem'
+        '409':
+          $ref: '#/components/responses/Problem'
+        '422':
+          $ref: '#/components/responses/Problem'
+        '429':
+          $ref: '#/components/responses/Problem'
+        '503':
+          $ref: '#/components/responses/Problem'
+      description: Raw reflection body is not accepted inline; protected vault pointer may be referenced.
+      parameters:
+      - $ref: '#/components/parameters/RequestId'
+      - $ref: '#/components/parameters/IdempotencyKey'
+      - name: enrollment_id
+        in: path
+        required: true
+        schema:
+          type: string
+          format: uuid
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ReflectionInput'
+      operationId: post_formation_enrollments_enrollment_id_reflections
+  /formation/enrollments/{enrollment_id}/practices:
+    post:
+      summary: Record practice without inferring outcome
+      tags:
+      - Formation
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                type: object
+                additionalProperties: true
+        '400':
+          $ref: '#/components/responses/Problem'
+        '401':
+          $ref: '#/components/responses/Problem'
+        '403':
+          $ref: '#/components/responses/Problem'
+        '409':
+          $ref: '#/components/responses/Problem'
+        '422':
+          $ref: '#/components/responses/Problem'
+        '429':
+          $ref: '#/components/responses/Problem'
+        '503':
+          $ref: '#/components/responses/Problem'
+      parameters:
+      - $ref: '#/components/parameters/RequestId'
+      - $ref: '#/components/parameters/IdempotencyKey'
+      - name: enrollment_id
+        in: path
+        required: true
+        schema:
+          type: string
+          format: uuid
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PracticeInput'
+      operationId: post_formation_enrollments_enrollment_id_practices
+  /mission/programs:
+    get:
+      summary: List mission programs
+      tags:
+      - Mission
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/MissionProgram'
+        '400':
+          $ref: '#/components/responses/Problem'
+        '401':
+          $ref: '#/components/responses/Problem'
+        '403':
+          $ref: '#/components/responses/Problem'
+        '409':
+          $ref: '#/components/responses/Problem'
+        '422':
+          $ref: '#/components/responses/Problem'
+        '429':
+          $ref: '#/components/responses/Problem'
+        '503':
+          $ref: '#/components/responses/Problem'
+      parameters:
+      - $ref: '#/components/parameters/RequestId'
+      operationId: get_mission_programs
+  /mission/runs:
+    get:
+      summary: List mission runs visible to actor
+      tags:
+      - Mission
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/MissionRun'
+        '400':
+          $ref: '#/components/responses/Problem'
+        '401':
+          $ref: '#/components/responses/Problem'
+        '403':
+          $ref: '#/components/responses/Problem'
+        '409':
+          $ref: '#/components/responses/Problem'
+        '422':
+          $ref: '#/components/responses/Problem'
+        '429':
+          $ref: '#/components/responses/Problem'
+        '503':
+          $ref: '#/components/responses/Problem'
+      parameters:
+      - $ref: '#/components/parameters/RequestId'
+      operationId: get_mission_runs
+  /mission/runs/{run_id}/enrollments:
+    post:
+      summary: Enroll participant in mission run
+      tags:
+      - Mission
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                type: object
+                additionalProperties: true
+        '400':
+          $ref: '#/components/responses/Problem'
+        '401':
+          $ref: '#/components/responses/Problem'
+        '403':
+          $ref: '#/components/responses/Problem'
+        '409':
+          $ref: '#/components/responses/Problem'
+        '422':
+          $ref: '#/components/responses/Problem'
+        '429':
+          $ref: '#/components/responses/Problem'
+        '503':
+          $ref: '#/components/responses/Problem'
+      parameters:
+      - $ref: '#/components/parameters/RequestId'
+      - $ref: '#/components/parameters/IdempotencyKey'
+      - name: run_id
+        in: path
+        required: true
+        schema:
+          type: string
+          format: uuid
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                person_ref:
+                  type:
+                  - string
+                  - 'null'
+      operationId: post_mission_runs_run_id_enrollments
+  /mission/enrollments/{enrollment_id}/actions:
+    post:
+      summary: Record mission action and opportunity state
+      tags:
+      - Mission
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                type: object
+                additionalProperties: true
+        '400':
+          $ref: '#/components/responses/Problem'
+        '401':
+          $ref: '#/components/responses/Problem'
+        '403':
+          $ref: '#/components/responses/Problem'
+        '409':
+          $ref: '#/components/responses/Problem'
+        '422':
+          $ref: '#/components/responses/Problem'
+        '429':
+          $ref: '#/components/responses/Problem'
+        '503':
+          $ref: '#/components/responses/Problem'
+      description: Participation/action completion MUST NOT be treated as Growth Evidence or spiritual rank.
+      parameters:
+      - $ref: '#/components/parameters/RequestId'
+      - $ref: '#/components/parameters/IdempotencyKey'
+      - name: enrollment_id
+        in: path
+        required: true
+        schema:
+          type: string
+          format: uuid
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+              - action_id
+              - action_state
+              - opportunity_state
+              properties:
+                action_id:
+                  type: string
+                  format: uuid
+                action_state:
+                  type: string
+                opportunity_state:
+                  type: string
+                  enum:
+                  - AVAILABLE
+                  - NO_OPPORTUNITY
+                  - UNKNOWN
+                  - NOT_APPLICABLE
+                occurred_at:
+                  type:
+                  - string
+                  - 'null'
+                  format: date-time
+      operationId: post_mission_enrollments_enrollment_id_actions
+  /care/requests:
+    post:
+      summary: Create care request metadata with protected content reference
+      tags:
+      - Care
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                type: object
+                additionalProperties: true
+        '400':
+          $ref: '#/components/responses/Problem'
+        '401':
+          $ref: '#/components/responses/Problem'
+        '403':
+          $ref: '#/components/responses/Problem'
+        '409':
+          $ref: '#/components/responses/Problem'
+        '422':
+          $ref: '#/components/responses/Problem'
+        '429':
+          $ref: '#/components/responses/Problem'
+        '503':
+          $ref: '#/components/responses/Problem'
+      parameters:
+      - $ref: '#/components/parameters/RequestId'
+      - $ref: '#/components/parameters/IdempotencyKey'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CareRequestInput'
+      operationId: post_care_requests
+  /prayer/requests:
+    post:
+      summary: Create prayer request metadata with protected content reference
+      tags:
+      - Prayer
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                type: object
+                additionalProperties: true
+        '400':
+          $ref: '#/components/responses/Problem'
+        '401':
+          $ref: '#/components/responses/Problem'
+        '403':
+          $ref: '#/components/responses/Problem'
+        '409':
+          $ref: '#/components/responses/Problem'
+        '422':
+          $ref: '#/components/responses/Problem'
+        '429':
+          $ref: '#/components/responses/Problem'
+        '503':
+          $ref: '#/components/responses/Problem'
+      parameters:
+      - $ref: '#/components/parameters/RequestId'
+      - $ref: '#/components/parameters/IdempotencyKey'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PrayerRequestInput'
+      operationId: post_prayer_requests
+  /privacy/gateway/decisions:
+    post:
+      summary: Evaluate purpose/consent/scope/minimization policy
+      tags:
+      - Privacy Gateway
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GatewayDecision'
+        '400':
+          $ref: '#/components/responses/Problem'
+        '401':
+          $ref: '#/components/responses/Problem'
+        '403':
+          $ref: '#/components/responses/Problem'
+        '409':
+          $ref: '#/components/responses/Problem'
+        '422':
+          $ref: '#/components/responses/Problem'
+        '429':
+          $ref: '#/components/responses/Problem'
+        '503':
+          $ref: '#/components/responses/Problem'
+      security:
+      - serviceCredential:
+        - growth.bridge.write
+      parameters:
+      - $ref: '#/components/parameters/RequestId'
+      - $ref: '#/components/parameters/IdempotencyKey'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+              - request_or_event_ref
+              - purpose_code
+              properties:
+                request_or_event_ref:
+                  type: string
+                subject_link_ref:
+                  type:
+                  - string
+                  - 'null'
+                purpose_code:
+                  type: string
+                consent_ref:
+                  type:
+                  - string
+                  - 'null'
+                requested_profile_code:
+                  type: string
+      operationId: post_privacy_gateway_decisions
+  /integrations/chgo/events:
+    post:
+      summary: Submit eligible pseudonymous Church OS event to CHGO bridge
+      tags:
+      - CHGO Bridge
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                type: object
+                required:
+                - receipt_id
+                - status
+                properties:
+                  receipt_id:
+                    type: string
+                  status:
+                    type: string
+                  correlation_id:
+                    type: string
+        '400':
+          $ref: '#/components/responses/Problem'
+        '401':
+          $ref: '#/components/responses/Problem'
+        '403':
+          $ref: '#/components/responses/Problem'
+        '409':
+          $ref: '#/components/responses/Problem'
+        '422':
+          $ref: '#/components/responses/Problem'
+        '429':
+          $ref: '#/components/responses/Problem'
+        '503':
+          $ref: '#/components/responses/Problem'
+      description: Full member DB, real identity, unrestricted raw Life Diary/Care/Prayer text are out of contract.
+      security:
+      - serviceCredential:
+        - growth.bridge.write
+      parameters:
+      - $ref: '#/components/parameters/RequestId'
+      - $ref: '#/components/parameters/IdempotencyKey'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ChurchToCHGOEvent'
+      operationId: post_integrations_chgo_events
+  /integrations/chgo/requests/{request_id}:
+    get:
+      summary: Get bounded CHGO response/receipt
+      tags:
+      - CHGO Bridge
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/L2Response'
+        '400':
+          $ref: '#/components/responses/Problem'
+        '401':
+          $ref: '#/components/responses/Problem'
+        '403':
+          $ref: '#/components/responses/Problem'
+        '409':
+          $ref: '#/components/responses/Problem'
+        '422':
+          $ref: '#/components/responses/Problem'
+        '429':
+          $ref: '#/components/responses/Problem'
+        '503':
+          $ref: '#/components/responses/Problem'
+      security:
+      - serviceCredential:
+        - growth.bridge.read
+      parameters:
+      - $ref: '#/components/parameters/RequestId'
+      - name: request_id
+        in: path
+        required: true
+        schema:
+          type: string
+      operationId: get_integrations_chgo_requests_request_id
+  /pastor/pulse:
+    get:
+      summary: Get pastor operational pulse
+      tags:
+      - Pastor
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                type: object
+                additionalProperties: true
+        '400':
+          $ref: '#/components/responses/Problem'
+        '401':
+          $ref: '#/components/responses/Problem'
+        '403':
+          $ref: '#/components/responses/Problem'
+        '409':
+          $ref: '#/components/responses/Problem'
+        '422':
+          $ref: '#/components/responses/Problem'
+        '429':
+          $ref: '#/components/responses/Problem'
+        '503':
+          $ref: '#/components/responses/Problem'
+      description: Operational aggregates only; protected personal growth data is not exposed.
+      parameters:
+      - $ref: '#/components/parameters/RequestId'
+      operationId: get_pastor_pulse
+  /pastor/community-growth:
+    post:
+      summary: Query approved CHGO community aggregate
+      tags:
+      - Pastor
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PastorAggregate'
+        '400':
+          $ref: '#/components/responses/Problem'
+        '401':
+          $ref: '#/components/responses/Problem'
+        '403':
+          $ref: '#/components/responses/Problem'
+        '409':
+          $ref: '#/components/responses/Problem'
+        '422':
+          $ref: '#/components/responses/Problem'
+        '429':
+          $ref: '#/components/responses/Problem'
+        '503':
+          $ref: '#/components/responses/Problem'
+      description: Aggregate-only query. Server applies minimum cohort, secondary suppression and privacy-rate policy.
+        Production threshold is policy-governed and intentionally unspecified.
+      security:
+      - userBearer: []
+      parameters:
+      - $ref: '#/components/parameters/RequestId'
+      - $ref: '#/components/parameters/IdempotencyKey'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+              - cohort_definition
+              - window
+              - metric_codes
+              properties:
+                cohort_definition:
+                  type: object
+                  additionalProperties: true
+                window:
+                  type: object
+                  required:
+                  - start
+                  - end
+                  properties:
+                    start:
+                      type: string
+                      format: date
+                    end:
+                      type: string
+                      format: date
+                metric_codes:
+                  type: array
+                  items:
+                    type: string
+      operationId: post_pastor_community_growth
+  /headless/modules:
+    get:
+      summary: List modules granted to current headless client
+      tags:
+      - Headless
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+                  additionalProperties: true
+        '400':
+          $ref: '#/components/responses/Problem'
+        '401':
+          $ref: '#/components/responses/Problem'
+        '403':
+          $ref: '#/components/responses/Problem'
+        '409':
+          $ref: '#/components/responses/Problem'
+        '422':
+          $ref: '#/components/responses/Problem'
+        '429':
+          $ref: '#/components/responses/Problem'
+        '503':
+          $ref: '#/components/responses/Problem'
+      security:
+      - serviceCredential:
+        - church.core.read
+      parameters:
+      - $ref: '#/components/parameters/RequestId'
+      operationId: get_headless_modules
+  /headless/webhooks:
+    post:
+      summary: Create scoped webhook subscription
+      tags:
+      - Headless
+      - Webhooks
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                type: object
+                additionalProperties: true
+        '400':
+          $ref: '#/components/responses/Problem'
+        '401':
+          $ref: '#/components/responses/Problem'
+        '403':
+          $ref: '#/components/responses/Problem'
+        '409':
+          $ref: '#/components/responses/Problem'
+        '422':
+          $ref: '#/components/responses/Problem'
+        '429':
+          $ref: '#/components/responses/Problem'
+        '503':
+          $ref: '#/components/responses/Problem'
+      security:
+      - serviceCredential:
+        - webhook.manage
+      parameters:
+      - $ref: '#/components/parameters/RequestId'
+      - $ref: '#/components/parameters/IdempotencyKey'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/WebhookSubscription'
+      operationId: post_headless_webhooks
+  /me/vaults:
+    get:
+      summary: List current user Vaults
+      tags:
+      - PersonalVault
+      parameters:
+      - $ref: '#/components/parameters/RequestId'
+      responses:
+        '200':
+          description: Success
+        '400': &id001
+          $ref: '#/components/responses/Problem'
+        '401': &id002
+          $ref: '#/components/responses/Problem'
+        '403': &id003
+          $ref: '#/components/responses/Problem'
+        '404': &id004
+          $ref: '#/components/responses/Problem'
+        '409': &id005
+          $ref: '#/components/responses/Problem'
+        '422': &id006
+          $ref: '#/components/responses/Problem'
+        '429': &id007
+          $ref: '#/components/responses/Problem'
+        '503': &id008
+          $ref: '#/components/responses/Problem'
+      operationId: get_me_vaults
+  /me/vaults/{vaultId}:
+    parameters:
+    - name: vaultId
+      in: path
+      required: true
+      schema:
+        type: string
+        format: uuid
+    get:
+      summary: Get current user Vault summary
+      tags:
+      - PersonalVault
+      parameters:
+      - $ref: '#/components/parameters/RequestId'
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/VaultSummary'
+        '400': *id001
+        '401': *id002
+        '403': *id003
+        '404': *id004
+        '409': *id005
+        '422': *id006
+        '429': *id007
+        '503': *id008
+      operationId: get_me_vaults_vaultId
+  /me/vaults/{vaultId}/entries:
+    parameters:
+    - name: vaultId
+      in: path
+      required: true
+      schema:
+        type: string
+        format: uuid
+    get:
+      summary: List own Vault entry metadata
+      tags:
+      - VaultEntries
+      parameters:
+      - $ref: '#/components/parameters/RequestId'
+      responses:
+        '200':
+          description: Success
+        '400': *id001
+        '401': *id002
+        '403': *id003
+        '404': *id004
+        '409': *id005
+        '422': *id006
+        '429': *id007
+        '503': *id008
+      operationId: get_me_vaults_vaultId_entries
+    post:
+      summary: Create own Vault entry
+      tags:
+      - VaultEntries
+      parameters:
+      - $ref: '#/components/parameters/RequestId'
+      - $ref: '#/components/parameters/IdempotencyKey'
+      responses:
+        '201':
+          description: Created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/VaultEntry'
+        '400': *id001
+        '401': *id002
+        '403': *id003
+        '404': *id004
+        '409': *id005
+        '422': *id006
+        '429': *id007
+        '503': *id008
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/VaultEntryContentInput'
+      operationId: post_me_vaults_vaultId_entries
+  /me/vaults/{vaultId}/entries/{entryId}:
+    parameters:
+    - name: vaultId
+      in: path
+      required: true
+      schema:
+        type: string
+        format: uuid
+    - name: entryId
+      in: path
+      required: true
+      schema:
+        type: string
+        format: uuid
+    get:
+      summary: Read own authorized Vault entry
+      tags:
+      - VaultEntries
+      parameters:
+      - $ref: '#/components/parameters/RequestId'
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/VaultEntry'
+        '400': *id001
+        '401': *id002
+        '403': *id003
+        '404': *id004
+        '409': *id005
+        '422': *id006
+        '429': *id007
+        '503': *id008
+      operationId: get_me_vaults_vaultId_entries_entryId
+    put:
+      summary: Create next canonical Vault entry version
+      tags:
+      - VaultEntries
+      parameters:
+      - $ref: '#/components/parameters/RequestId'
+      - $ref: '#/components/parameters/IfMatchRequired'
+      responses:
+        '200':
+          description: Updated
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/VaultEntry'
+        '400': *id001
+        '401': *id002
+        '403': *id003
+        '404': *id004
+        '409': *id005
+        '422': *id006
+        '429': *id007
+        '503': *id008
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/VaultEntryContentInput'
+      operationId: put_me_vaults_vaultId_entries_entryId
+    delete:
+      summary: Start deletion of one Vault entry
+      tags:
+      - VaultDeletion
+      parameters:
+      - $ref: '#/components/parameters/RequestId'
+      - $ref: '#/components/parameters/IdempotencyKey'
+      responses:
+        '202':
+          description: Deletion accepted
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DeletionJob'
+        '400': *id001
+        '401': *id002
+        '403': *id003
+        '404': *id004
+        '409': *id005
+        '422': *id006
+        '429': *id007
+        '503': *id008
+      description: Starts PDV-006 lifecycle deletion. 202 does not mean PURGED.
+      operationId: delete_me_vaults_vaultId_entries_entryId
+  /me/vaults/{vaultId}/shares:
+    parameters:
+    - name: vaultId
+      in: path
+      required: true
+      schema:
+        type: string
+        format: uuid
+    get:
+      summary: List own Vault share grants
+      tags:
+      - VaultShares
+      parameters:
+      - $ref: '#/components/parameters/RequestId'
+      responses:
+        '200':
+          description: Success
+        '400': *id001
+        '401': *id002
+        '403': *id003
+        '404': *id004
+        '409': *id005
+        '422': *id006
+        '429': *id007
+        '503': *id008
+      operationId: get_me_vaults_vaultId_shares
+    post:
+      summary: Create explicit scoped Vault share
+      tags:
+      - VaultShares
+      parameters:
+      - $ref: '#/components/parameters/RequestId'
+      - $ref: '#/components/parameters/IdempotencyKey'
+      responses:
+        '201':
+          description: Created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ShareGrant'
+        '400': *id001
+        '401': *id002
+        '403': *id003
+        '404': *id004
+        '409': *id005
+        '422': *id006
+        '429': *id007
+        '503': *id008
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ShareGrantInput'
+      operationId: post_me_vaults_vaultId_shares
+  /me/vaults/{vaultId}/shares/{shareGrantId}:
+    parameters:
+    - name: vaultId
+      in: path
+      required: true
+      schema:
+        type: string
+        format: uuid
+    - name: shareGrantId
+      in: path
+      required: true
+      schema:
+        type: string
+        format: uuid
+    delete:
+      summary: Revoke Vault share grant
+      tags:
+      - VaultShares
+      parameters:
+      - $ref: '#/components/parameters/RequestId'
+      - $ref: '#/components/parameters/IdempotencyKey'
+      responses:
+        '204':
+          description: Revoked
+        '400': *id001
+        '401': *id002
+        '403': *id003
+        '404': *id004
+        '409': *id005
+        '422': *id006
+        '429': *id007
+        '503': *id008
+      operationId: delete_me_vaults_vaultId_shares_shareGrantId
+  /me/vaults/{vaultId}/exports:
+    parameters:
+    - name: vaultId
+      in: path
+      required: true
+      schema:
+        type: string
+        format: uuid
+    post:
+      summary: Create Vault export job
+      tags:
+      - VaultExport
+      parameters:
+      - $ref: '#/components/parameters/RequestId'
+      - $ref: '#/components/parameters/IdempotencyKey'
+      responses:
+        '202':
+          description: Export accepted
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ExportJob'
+        '400': *id001
+        '401': *id002
+        '403': *id003
+        '404': *id004
+        '409': *id005
+        '422': *id006
+        '429': *id007
+        '503': *id008
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ExportRequest'
+      operationId: post_me_vaults_vaultId_exports
+  /me/vaults/{vaultId}/exports/{jobId}:
+    parameters:
+    - name: vaultId
+      in: path
+      required: true
+      schema:
+        type: string
+        format: uuid
+    - name: jobId
+      in: path
+      required: true
+      schema:
+        type: string
+        format: uuid
+    get:
+      summary: Get Vault export job
+      tags:
+      - VaultExport
+      parameters:
+      - $ref: '#/components/parameters/RequestId'
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ExportJob'
+        '400': *id001
+        '401': *id002
+        '403': *id003
+        '404': *id004
+        '409': *id005
+        '422': *id006
+        '429': *id007
+        '503': *id008
+      operationId: get_me_vaults_vaultId_exports_jobId
+    delete:
+      summary: Delete or invalidate temporary export package
+      tags:
+      - VaultExport
+      parameters:
+      - $ref: '#/components/parameters/RequestId'
+      - $ref: '#/components/parameters/IdempotencyKey'
+      responses:
+        '204':
+          description: Deleted
+        '400': *id001
+        '401': *id002
+        '403': *id003
+        '404': *id004
+        '409': *id005
+        '422': *id006
+        '429': *id007
+        '503': *id008
+      operationId: delete_me_vaults_vaultId_exports_jobId
+  /me/vaults/{vaultId}/exports/{jobId}/download-token:
+    parameters:
+    - name: vaultId
+      in: path
+      required: true
+      schema:
+        type: string
+        format: uuid
+    - name: jobId
+      in: path
+      required: true
+      schema:
+        type: string
+        format: uuid
+    post:
+      summary: Issue short-lived export download token
+      tags:
+      - VaultExport
+      parameters:
+      - $ref: '#/components/parameters/RequestId'
+      - $ref: '#/components/parameters/IdempotencyKey'
+      responses:
+        '201':
+          description: Token issued
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DownloadToken'
+        '400': *id001
+        '401': *id002
+        '403': *id003
+        '404': *id004
+        '409': *id005
+        '422': *id006
+        '429': *id007
+        '503': *id008
+      operationId: post_me_vaults_vaultId_exports_jobId_download_token
+  /me/vaults/{vaultId}/deletions:
+    parameters:
+    - name: vaultId
+      in: path
+      required: true
+      schema:
+        type: string
+        format: uuid
+    post:
+      summary: Create scoped Vault deletion job
+      tags:
+      - VaultDeletion
+      parameters:
+      - $ref: '#/components/parameters/RequestId'
+      - $ref: '#/components/parameters/IdempotencyKey'
+      responses:
+        '202':
+          description: Deletion accepted
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DeletionJob'
+        '400': *id001
+        '401': *id002
+        '403': *id003
+        '404': *id004
+        '409': *id005
+        '422': *id006
+        '429': *id007
+        '503': *id008
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/DeletionRequest'
+      operationId: post_me_vaults_vaultId_deletions
+  /me/vaults/{vaultId}/deletions/{jobId}:
+    parameters:
+    - name: vaultId
+      in: path
+      required: true
+      schema:
+        type: string
+        format: uuid
+    - name: jobId
+      in: path
+      required: true
+      schema:
+        type: string
+        format: uuid
+    get:
+      summary: Get Vault deletion lifecycle state
+      tags:
+      - VaultDeletion
+      parameters:
+      - $ref: '#/components/parameters/RequestId'
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DeletionJob'
+        '400': *id001
+        '401': *id002
+        '403': *id003
+        '404': *id004
+        '409': *id005
+        '422': *id006
+        '429': *id007
+        '503': *id008
+      operationId: get_me_vaults_vaultId_deletions_jobId
+  /me/vaults/{vaultId}/providers:
+    parameters:
+    - name: vaultId
+      in: path
+      required: true
+      schema:
+        type: string
+        format: uuid
+    get:
+      summary: List normalized Vault provider profiles
+      tags:
+      - VaultProviders
+      parameters:
+      - $ref: '#/components/parameters/RequestId'
+      responses:
+        '200':
+          description: Success
+        '400': *id001
+        '401': *id002
+        '403': *id003
+        '404': *id004
+        '409': *id005
+        '422': *id006
+        '429': *id007
+        '503': *id008
+      operationId: get_me_vaults_vaultId_providers
+    post:
+      summary: Connect a Vault provider profile
+      tags:
+      - VaultProviders
+      parameters:
+      - $ref: '#/components/parameters/RequestId'
+      - $ref: '#/components/parameters/IdempotencyKey'
+      responses:
+        '202':
+          description: Connection initiated
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ProviderProfile'
+        '400': *id001
+        '401': *id002
+        '403': *id003
+        '404': *id004
+        '409': *id005
+        '422': *id006
+        '429': *id007
+        '503': *id008
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ProviderConnectRequest'
+      operationId: post_me_vaults_vaultId_providers
+  /me/vaults/{vaultId}/providers/{profileId}:
+    parameters:
+    - name: vaultId
+      in: path
+      required: true
+      schema:
+        type: string
+        format: uuid
+    - name: profileId
+      in: path
+      required: true
+      schema:
+        type: string
+        format: uuid
+    delete:
+      summary: Disconnect Vault provider credential
+      tags:
+      - VaultProviders
+      parameters:
+      - $ref: '#/components/parameters/RequestId'
+      - $ref: '#/components/parameters/IdempotencyKey'
+      responses:
+        '204':
+          description: Disconnected
+        '400': *id001
+        '401': *id002
+        '403': *id003
+        '404': *id004
+        '409': *id005
+        '422': *id006
+        '429': *id007
+        '503': *id008
+      description: Disconnect does not implicitly delete the Personal Vault.
+      operationId: delete_me_vaults_vaultId_providers_profileId
+  /me/vaults/{vaultId}/provider-migrations:
+    parameters:
+    - name: vaultId
+      in: path
+      required: true
+      schema:
+        type: string
+        format: uuid
+    post:
+      summary: Create provider migration job
+      tags:
+      - VaultProviders
+      parameters:
+      - $ref: '#/components/parameters/RequestId'
+      - $ref: '#/components/parameters/IdempotencyKey'
+      responses:
+        '202':
+          description: Migration accepted
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ProviderMigrationJob'
+        '400': *id001
+        '401': *id002
+        '403': *id003
+        '404': *id004
+        '409': *id005
+        '422': *id006
+        '429': *id007
+        '503': *id008
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ProviderMigrationRequest'
+      operationId: post_me_vaults_vaultId_provider_migrations
+  /me/vaults/{vaultId}/provider-migrations/{jobId}:
+    parameters:
+    - name: vaultId
+      in: path
+      required: true
+      schema:
+        type: string
+        format: uuid
+    - name: jobId
+      in: path
+      required: true
+      schema:
+        type: string
+        format: uuid
+    get:
+      summary: Get provider migration state
+      tags:
+      - VaultProviders
+      parameters:
+      - $ref: '#/components/parameters/RequestId'
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ProviderMigrationJob'
+        '400': *id001
+        '401': *id002
+        '403': *id003
+        '404': *id004
+        '409': *id005
+        '422': *id006
+        '429': *id007
+        '503': *id008
+      operationId: get_me_vaults_vaultId_provider_migrations_jobId
+  /me/vaults/{vaultId}/recovery/sessions:
+    parameters:
+    - name: vaultId
+      in: path
+      required: true
+      schema:
+        type: string
+        format: uuid
+    post:
+      summary: Initiate governed Vault recovery session
+      tags:
+      - VaultRecovery
+      parameters:
+      - $ref: '#/components/parameters/RequestId'
+      - $ref: '#/components/parameters/IdempotencyKey'
+      responses:
+        '202':
+          description: Recovery initiated
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RecoverySession'
+        '400': *id001
+        '401': *id002
+        '403': *id003
+        '404': *id004
+        '409': *id005
+        '422': *id006
+        '429': *id007
+        '503': *id008
+      operationId: post_me_vaults_vaultId_recovery_sessions
+  /me/vaults/{vaultId}/recovery/sessions/{sessionId}:
+    parameters:
+    - name: vaultId
+      in: path
+      required: true
+      schema:
+        type: string
+        format: uuid
+    - name: sessionId
+      in: path
+      required: true
+      schema:
+        type: string
+        format: uuid
+    get:
+      summary: Get Vault recovery session state
+      tags:
+      - VaultRecovery
+      parameters:
+      - $ref: '#/components/parameters/RequestId'
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RecoverySession'
+        '400': *id001
+        '401': *id002
+        '403': *id003
+        '404': *id004
+        '409': *id005
+        '422': *id006
+        '429': *id007
+        '503': *id008
+      operationId: get_me_vaults_vaultId_recovery_sessions_sessionId
+  /coach/shared-vault-resources:
+    get:
+      summary: List resources available through Coach Dual Gate
+      tags:
+      - CoachShared
+      parameters:
+      - $ref: '#/components/parameters/RequestId'
+      responses:
+        '200':
+          description: Success
+        '400': *id001
+        '401': *id002
+        '403': *id003
+        '404': *id004
+        '409': *id005
+        '422': *id006
+        '429': *id007
+        '503': *id008
+      security:
+      - userBearer: []
+      description: Requires valid coach authority plus explicit active user share. Membership alone is insufficient.
+      operationId: get_coach_shared_vault_resources
+  /coach/shared-vault-resources/{resourceId}:
+    parameters:
+    - name: resourceId
+      in: path
+      required: true
+      schema:
+        type: string
+        format: uuid
+    get:
+      summary: Read one Coach Dual Gate authorized resource
+      tags:
+      - CoachShared
+      parameters:
+      - $ref: '#/components/parameters/RequestId'
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CoachSharedResource'
+        '400': *id001
+        '401': *id002
+        '403': *id003
+        '404': *id004
+        '409': *id005
+        '422': *id006
+        '429': *id007
+        '503': *id008
+      security:
+      - userBearer: []
+      operationId: get_coach_shared_vault_resources_resourceId
+  /churches/{churchId}/growth-aggregates:
+    parameters:
+    - name: churchId
+      in: path
+      required: true
+      schema:
+        type: string
+        format: uuid
+    post:
+      summary: Query governed aggregate-only church growth view
+      tags:
+      - ChurchAggregates
+      parameters:
+      - $ref: '#/components/parameters/RequestId'
+      - $ref: '#/components/parameters/IdempotencyKey'
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ChurchGrowthAggregate'
+        '400': *id001
+        '401': *id002
+        '403': *id003
+        '404': *id004
+        '409': *id005
+        '422': *id006
+        '429': *id007
+        '503': *id008
+      security:
+      - userBearer: []
+      description: Pastor Aggregate Only. Minimum cohort/suppression policy is server-governed and intentionally
+        not hardcoded here.
+      operationId: post_churches_churchId_growth_aggregates
+  /integrations/vault/capabilities:
+    get:
+      summary: Get safe Vault integration capabilities for headless client
+      tags:
+      - VaultIntegrations
+      parameters:
+      - $ref: '#/components/parameters/RequestId'
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/VaultIntegrationCapabilities'
+        '400': *id001
+        '401': *id002
+        '403': *id003
+        '404': *id004
+        '409': *id005
+        '422': *id006
+        '429': *id007
+        '503': *id008
+      security:
+      - serviceCredential:
+        - vault.integration.read
+      description: No raw Vault backend access, provider credential or key material.
+      operationId: get_integrations_vault_capabilities
+  /integrations/vault/webhooks:
+    post:
+      summary: Create metadata-only Vault webhook subscription
+      tags:
+      - VaultIntegrations
+      parameters:
+      - $ref: '#/components/parameters/RequestId'
+      - $ref: '#/components/parameters/IdempotencyKey'
+      responses:
+        '201':
+          description: Created
+        '400': *id001
+        '401': *id002
+        '403': *id003
+        '404': *id004
+        '409': *id005
+        '422': *id006
+        '429': *id007
+        '503': *id008
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/VaultWebhookSubscriptionInput'
+      security:
+      - serviceCredential:
+        - webhook.manage
+      description: Webhook payloads contain opaque IDs and lifecycle states only; never raw diary or secrets.
+      operationId: post_integrations_vault_webhooks
+components:
+  securitySchemes:
+    userBearer:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+    serviceCredential:
+      type: oauth2
+      flows:
+        clientCredentials:
+          tokenUrl: /oauth/token
+          scopes:
+            church.core.read: Read permitted Church OS operational resources
+            formation.write: Write permitted formation operations
+            mission.write: Write permitted mission operations
+            growth.bridge.write: Submit purpose-bound pseudonymous events to Privacy Gateway
+            growth.bridge.read: Read bounded CHGO responses
+            pastor.aggregate.read: Read approved aggregate-only pastor insights
+            webhook.manage: Manage tenant webhook subscriptions
+            vault.integration.read: Read safe Vault integration metadata/capabilities only
+            vault.webhook.read: Receive metadata-only Vault lifecycle events
+  parameters:
+    RequestId:
+      name: X-Request-Id
+      in: header
+      required: false
+      schema:
+        type: string
+    IdempotencyKey:
+      name: Idempotency-Key
+      in: header
+      required: true
+      schema:
+        type: string
+        minLength: 8
+        maxLength: 200
+    IfMatch:
+      name: If-Match
+      in: header
+      required: false
+      schema:
+        type: string
+    Cursor:
+      name: cursor
+      in: query
+      required: false
+      schema:
+        type: string
+    IfMatchRequired:
+      name: If-Match
+      in: header
+      required: true
+      schema:
+        type: string
+  schemas:
+    Problem:
+      type: object
+      required:
+      - type
+      - title
+      - status
+      - code
+      - request_id
+      properties:
+        type:
+          type: string
+        title:
+          type: string
+        status:
+          type: integer
+        code:
+          type: string
+          enum:
+          - INVALID_REQUEST
+          - UNAUTHENTICATED
+          - POLICY_DENIED
+          - NOT_AVAILABLE
+          - STATE_CONFLICT
+          - CONTRACT_BLOCKED
+          - PRIVACY_RATE_LIMIT
+          - ENGINE_UNAVAILABLE
+          - SUPPRESSED
+          - HANDOFF
+        detail:
+          type: string
+        request_id:
+          type: string
+        policy_version:
+          type:
+          - string
+          - 'null'
+        correlation_id:
+          type:
+          - string
+          - 'null'
+    PageMeta:
+      type: object
+      properties:
+        next_cursor:
+          type:
+          - string
+          - 'null'
+    TodayAction:
+      type: object
+      required:
+      - id
+      - source_type
+      - priority_class
+      - action_route
+      - state
+      properties:
+        id:
+          type: string
+          format: uuid
+        source_type:
+          type: string
+        priority_class:
+          type: string
+        due_at:
+          type:
+          - string
+          - 'null'
+          format: date-time
+        action_route:
+          type: string
+        state:
+          type: string
+        privacy_class:
+          type: string
+        provenance:
+          type:
+          - object
+          - 'null'
+          additionalProperties: true
+    FormationPack:
+      type: object
+      required:
+      - id
+      - code
+      - version
+      - provider_type
+      - status
+      properties:
+        id:
+          type: string
+          format: uuid
+        code:
+          type: string
+        version:
+          type: string
+        provider_type:
+          type: string
+        default_locale:
+          type:
+          - string
+          - 'null'
+        status:
+          type: string
+    FormationJourney:
+      type: object
+      required:
+      - id
+      - code
+      - title
+      - version
+      - status
+      properties:
+        id:
+          type: string
+          format: uuid
+        pack_id:
+          type:
+          - string
+          - 'null'
+          format: uuid
+        code:
+          type: string
+        title:
+          type: string
+        version:
+          type: string
+        status:
+          type: string
+    Enrollment:
+      type: object
+      required:
+      - id
+      - journey_id
+      - status
+      - started_at
+      properties:
+        id:
+          type: string
+          format: uuid
+        journey_id:
+          type: string
+          format: uuid
+        status:
+          type: string
+        started_at:
+          type: string
+          format: date-time
+        completed_at:
+          type:
+          - string
+          - 'null'
+          format: date-time
+    ReflectionInput:
+      type: object
+      required:
+      - structured_response
+      - visibility_policy_id
+      properties:
+        activity_id:
+          type:
+          - string
+          - 'null'
+          format: uuid
+        visibility_policy_id:
+          type: string
+          format: uuid
+        structured_response:
+          type: object
+          additionalProperties: true
+        raw_content_vault_pointer:
+          type:
+          - string
+          - 'null'
+          description: Protected vault reference only; raw body MUST NOT be sent inline.
+        ai_processing_allowed:
+          type: boolean
+          default: false
+      additionalProperties: false
+    PracticeInput:
+      type: object
+      required:
+      - practice_type
+      - practice_state
+      - opportunity_state
+      - occurred_at
+      properties:
+        opportunity_id:
+          type:
+          - string
+          - 'null'
+          format: uuid
+        practice_type:
+          type: string
+        practice_state:
+          type: string
+        opportunity_state:
+          type: string
+          enum:
+          - AVAILABLE
+          - NO_OPPORTUNITY
+          - UNKNOWN
+          - NOT_APPLICABLE
+        occurred_at:
+          type: string
+          format: date-time
+        source_ref:
+          type:
+          - string
+          - 'null'
+    MissionProgram:
+      type: object
+      required:
+      - id
+      - code
+      - title
+      - status
+      properties:
+        id:
+          type: string
+          format: uuid
+        code:
+          type: string
+        title:
+          type: string
+        duration_days:
+          type:
+          - integer
+          - 'null'
+          minimum: 1
+        status:
+          type: string
+    MissionRun:
+      type: object
+      required:
+      - id
+      - program_id
+      - starts_on
+      - status
+      properties:
+        id:
+          type: string
+          format: uuid
+        program_id:
+          type: string
+          format: uuid
+        starts_on:
+          type: string
+          format: date
+        ends_on:
+          type:
+          - string
+          - 'null'
+          format: date
+        status:
+          type: string
+    CareRequestInput:
+      type: object
+      required:
+      - visibility_policy_id
+      - sensitivity_class
+      properties:
+        category:
+          type:
+          - string
+          - 'null'
+        visibility_policy_id:
+          type: string
+          format: uuid
+        sensitivity_class:
+          type: string
+          enum:
+          - STANDARD
+          - SENSITIVE
+          - HIGHLY_SENSITIVE
+        protected_content_vault_pointer:
+          type:
+          - string
+          - 'null'
+          description: No raw care note inline.
+      additionalProperties: false
+    PrayerRequestInput:
+      type: object
+      required:
+      - visibility_policy_id
+      - sensitivity_class
+      properties:
+        category:
+          type:
+          - string
+          - 'null'
+        visibility_policy_id:
+          type: string
+          format: uuid
+        sensitivity_class:
+          type: string
+          enum:
+          - STANDARD
+          - SENSITIVE
+          - HIGHLY_SENSITIVE
+        protected_content_vault_pointer:
+          type:
+          - string
+          - 'null'
+          description: No raw prayer body inline.
+      additionalProperties: false
+    GatewayDecision:
+      type: object
+      required:
+      - decision
+      - purpose_code
+      - policy_version
+      properties:
+        decision:
+          type: string
+          enum:
+          - ALLOW
+          - REDACT
+          - DENY
+          - SUPPRESS
+          - HANDOFF
+        purpose_code:
+          type: string
+        policy_version:
+          type: string
+        reason_code:
+          type:
+          - string
+          - 'null'
+        minimized_profile_code:
+          type:
+          - string
+          - 'null'
+        correlation_id:
+          type: string
+    ChurchToCHGOEvent:
+      type: object
+      required:
+      - event_id
+      - event_type
+      - schema_version
+      - tenant_ref
+      - subject_key
+      - purpose_code
+      - occurred_at
+      - source
+      - data
+      - trace
+      properties:
+        event_id:
+          type: string
+        event_type:
+          type: string
+          enum:
+          - formation.journey.started
+          - formation.unit.completed
+          - formation.reflection.submitted
+          - formation.practice.recorded
+          - formation.outcome.observed
+          - mission.participation.started
+          - mission.action.recorded
+          - group.connection.changed
+          - care.followup.status.changed
+          - growth.reflection.requested
+          - consent.revoked
+          - subject.deleted
+          - safety.handoff.requested
+        schema_version:
+          type: string
+        tenant_ref:
+          type: string
+        subject_key:
+          type: string
+        purpose_code:
+          type: string
+        consent_basis_ref:
+          type:
+          - string
+          - 'null'
+        occurred_at:
+          type: string
+          format: date-time
+        source:
+          type: object
+          required:
+          - system
+          - module
+          - source_event_id
+          properties:
+            system:
+              const: church_os
+            module:
+              type: string
+            source_event_id:
+              type: string
+          additionalProperties: false
+        context:
+          type: object
+          additionalProperties: true
+        data:
+          type: object
+          additionalProperties: true
+        trace:
+          type: object
+          required:
+          - correlation_id
+          - policy_version
+          - contract_version
+          properties:
+            correlation_id:
+              type: string
+            policy_version:
+              type: string
+            contract_version:
+              const: '1.0'
+          additionalProperties: false
+      additionalProperties: false
+    L2Response:
+      type: object
+      required:
+      - request_id
+      - status
+      - data
+      - provenance
+      - privacy
+      - trace
+      properties:
+        request_id:
+          type: string
+        status:
+          type: string
+          enum:
+          - OK
+          - PARTIAL
+          - SUPPRESSED
+          - DENIED
+          - HANDOFF
+        data:
+          type: object
+          additionalProperties: true
+        provenance:
+          type: object
+          required:
+          - ontology_release
+          - model_or_rule_version
+          - prompt_or_policy_version
+          - calculation_version
+          properties:
+            ontology_release:
+              type: string
+            model_or_rule_version:
+              type: string
+            prompt_or_policy_version:
+              type: string
+            calculation_version:
+              type: string
+        privacy:
+          type: object
+          properties:
+            coverage: {}
+            suppression_state:
+              type:
+              - string
+              - 'null'
+            purpose_code:
+              type: string
+        trace:
+          type: object
+          required:
+          - correlation_id
+          properties:
+            correlation_id:
+              type: string
+    PastorAggregate:
+      type: object
+      required:
+      - cohort_definition
+      - window
+      - coverage
+      - suppression_state
+      - provenance
+      properties:
+        cohort_definition:
+          type: object
+          additionalProperties: true
+        window:
+          type: object
+          required:
+          - start
+          - end
+          properties:
+            start:
+              type: string
+              format: date
+            end:
+              type: string
+              format: date
+        coverage: {}
+        suppression_state:
+          type: string
+        metric:
+          type:
+          - object
+          - 'null'
+          additionalProperties: true
+        recommended_action:
+          type:
+          - object
+          - 'null'
+          additionalProperties: true
+        provenance:
+          type: object
+          additionalProperties: true
+      description: Aggregate-only. MUST NOT contain person_id, subject_key, raw reflection, or personal evidence
+        links.
+    WebhookSubscription:
+      type: object
+      required:
+      - event_types
+      - endpoint_ref
+      properties:
+        event_types:
+          type: array
+          items:
+            type: string
+        endpoint_ref:
+          type: string
+        status:
+          type: string
+          default: ACTIVE
+    VaultSummary:
+      type: object
+      required:
+      - vault_id
+      - status
+      - provider_status
+      properties:
+        vault_id:
+          type: string
+          format: uuid
+        status:
+          type: string
+        provider_status:
+          type: string
+        capabilities:
+          type: array
+          items:
+            type: string
+      additionalProperties: false
+    VaultEntryMetadata:
+      type: object
+      required:
+      - entry_id
+      - entry_version_id
+      - schema_version
+      - created_at
+      - updated_at
+      - etag
+      properties:
+        entry_id:
+          type: string
+          format: uuid
+        entry_version_id:
+          type: string
+          format: uuid
+        schema_version:
+          type: string
+        occurred_at:
+          type:
+          - string
+          - 'null'
+          format: date-time
+        created_at:
+          type: string
+          format: date-time
+        updated_at:
+          type: string
+          format: date-time
+        etag:
+          type: string
+        provider_status:
+          type: string
+      additionalProperties: false
+    VaultEntryContentInput:
+      type: object
+      required:
+      - schema_version
+      - content
+      properties:
+        schema_version:
+          type: string
+        occurred_at:
+          type:
+          - string
+          - 'null'
+          format: date-time
+        content:
+          type: object
+          additionalProperties: true
+      additionalProperties: false
+    VaultEntry:
+      allOf:
+      - $ref: '#/components/schemas/VaultEntryMetadata'
+      - type: object
+        required:
+        - content
+        properties:
+          content:
+            type: object
+            additionalProperties: true
+    ShareGrantInput:
+      type: object
+      required:
+      - resource_type
+      - resource_id
+      - grantee_type
+      - grantee_ref
+      - purpose
+      - expires_at
+      properties:
+        resource_type:
+          type: string
+          enum:
+          - ENTRY
+          - ATTACHMENT
+        resource_id:
+          type: string
+          format: uuid
+        grantee_type:
+          type: string
+          enum:
+          - COACH
+        grantee_ref:
+          type: string
+        purpose:
+          type: string
+        expires_at:
+          type: string
+          format: date-time
+      additionalProperties: false
+    ShareGrant:
+      type: object
+      required:
+      - share_grant_id
+      - status
+      - resource_type
+      - resource_id
+      - purpose
+      - expires_at
+      properties:
+        share_grant_id:
+          type: string
+          format: uuid
+        status:
+          type: string
+          enum:
+          - ACTIVE
+          - REVOKED
+          - EXPIRED
+        resource_type:
+          type: string
+        resource_id:
+          type: string
+          format: uuid
+        purpose:
+          type: string
+        expires_at:
+          type: string
+          format: date-time
+      additionalProperties: false
+    DeletionRequest:
+      type: object
+      required:
+      - scope
+      properties:
+        scope:
+          type: string
+          enum:
+          - ENTRY
+          - RANGE
+          - FULL_VAULT
+        entry_id:
+          type:
+          - string
+          - 'null'
+          format: uuid
+        from:
+          type:
+          - string
+          - 'null'
+          format: date-time
+        to:
+          type:
+          - string
+          - 'null'
+          format: date-time
+      additionalProperties: false
+    DeletionJob:
+      type: object
+      required:
+      - deletion_job_id
+      - state
+      - requested_at
+      properties:
+        deletion_job_id:
+          type: string
+          format: uuid
+        state:
+          type: string
+          enum:
+          - REQUESTED
+          - AUTHORIZED
+          - REVOKED_FOR_USE
+          - PROPAGATING
+          - ACTIVE_SYSTEM_DELETED
+          - BACKUP_AGING
+          - PURGED
+          - BLOCKED_HOLD
+          - FAILED
+        requested_at:
+          type: string
+          format: date-time
+        completed_at:
+          type:
+          - string
+          - 'null'
+          format: date-time
+      additionalProperties: false
+    ExportRequest:
+      type: object
+      required:
+      - scope
+      - format
+      properties:
+        scope:
+          type: string
+          enum:
+          - SELECTIVE
+          - FULL_VAULT
+        entry_ids:
+          type: array
+          items:
+            type: string
+            format: uuid
+        format:
+          type: string
+          enum:
+          - HUMAN_READABLE
+          - MACHINE_READABLE
+      additionalProperties: false
+    ExportJob:
+      type: object
+      required:
+      - export_job_id
+      - status
+      - requested_at
+      properties:
+        export_job_id:
+          type: string
+          format: uuid
+        status:
+          type: string
+          enum:
+          - REQUESTED
+          - BUILDING
+          - READY
+          - DOWNLOADED
+          - EXPIRED
+          - FAILED
+          - DELETED
+        requested_at:
+          type: string
+          format: date-time
+        expires_at:
+          type:
+          - string
+          - 'null'
+          format: date-time
+      additionalProperties: false
+    DownloadToken:
+      type: object
+      required:
+      - token
+      - expires_at
+      properties:
+        token:
+          type: string
+          writeOnly: false
+        expires_at:
+          type: string
+          format: date-time
+      additionalProperties: false
+    ProviderProfile:
+      type: object
+      required:
+      - provider_profile_id
+      - provider_type
+      - mode
+      - status
+      - capabilities
+      properties:
+        provider_profile_id:
+          type: string
+          format: uuid
+        provider_type:
+          type: string
+        mode:
+          type: string
+          enum:
+          - MANAGED_SECURE
+          - PERSONAL_CLOUD
+          - LOCAL_ONLY
+          - ENTERPRISE_APPROVED
+        status:
+          type: string
+          enum:
+          - PENDING
+          - ACTIVE
+          - REAUTH_REQUIRED
+          - DEGRADED
+          - SUSPENDED
+          - DISCONNECTED
+        capabilities:
+          type: object
+          additionalProperties:
+            type: string
+            enum:
+            - SUPPORTED
+            - EMULATED
+            - DEGRADED
+            - UNSUPPORTED
+            - UNKNOWN
+      additionalProperties: false
+    ProviderConnectRequest:
+      type: object
+      required:
+      - provider_type
+      - mode
+      properties:
+        provider_type:
+          type: string
+        mode:
+          type: string
+          enum:
+          - MANAGED_SECURE
+          - PERSONAL_CLOUD
+          - LOCAL_ONLY
+          - ENTERPRISE_APPROVED
+        authorization_code:
+          type:
+          - string
+          - 'null'
+          writeOnly: true
+      additionalProperties: false
+    ProviderMigrationRequest:
+      type: object
+      required:
+      - source_profile_id
+      - target_profile_id
+      properties:
+        source_profile_id:
+          type: string
+          format: uuid
+        target_profile_id:
+          type: string
+          format: uuid
+      additionalProperties: false
+    ProviderMigrationJob:
+      type: object
+      required:
+      - migration_job_id
+      - state
+      properties:
+        migration_job_id:
+          type: string
+          format: uuid
+        state:
+          type: string
+          enum:
+          - PLANNED
+          - TARGET_READY
+          - COPYING
+          - VERIFYING
+          - CUTOVER_READY
+          - CUTOVER
+          - SOURCE_RETIRING
+          - COMPLETED
+          - ROLLED_BACK
+          - FAILED
+      additionalProperties: false
+    RecoverySession:
+      type: object
+      required:
+      - recovery_session_id
+      - state
+      properties:
+        recovery_session_id:
+          type: string
+          format: uuid
+        state:
+          type: string
+          enum:
+          - INITIATED
+          - VERIFYING
+          - AUTHORIZED
+          - COMPLETED
+          - FAILED
+          - EXPIRED
+        next_step:
+          type:
+          - string
+          - 'null'
+      additionalProperties: false
+    CoachSharedResource:
+      type: object
+      required:
+      - share_grant_id
+      - resource_type
+      - resource_id
+      - purpose
+      properties:
+        share_grant_id:
+          type: string
+          format: uuid
+        resource_type:
+          type: string
+        resource_id:
+          type: string
+          format: uuid
+        purpose:
+          type: string
+        content:
+          type: object
+          additionalProperties: true
+      additionalProperties: false
+    ChurchGrowthAggregate:
+      type: object
+      required:
+      - status
+      - metrics
+      properties:
+        status:
+          type: string
+          enum:
+          - AVAILABLE
+          - SUPPRESSED
+        metrics:
+          type: array
+          items:
+            type: object
+            additionalProperties: true
+        policy_version:
+          type:
+          - string
+          - 'null'
+      additionalProperties: false
+    VaultIntegrationCapabilities:
+      type: object
+      required:
+      - api_major
+      - modules
+      properties:
+        api_major:
+          type: string
+          const: v2
+        modules:
+          type: array
+          items:
+            type: string
+        embedded_ui_supported:
+          type: boolean
+        raw_backend_access:
+          type: boolean
+          const: false
+      additionalProperties: false
+    VaultWebhookSubscriptionInput:
+      type: object
+      required:
+      - callback_url
+      - event_types
+      properties:
+        callback_url:
+          type: string
+          format: uri
+        event_types:
+          type: array
+          items:
+            type: string
+            enum:
+            - vault.entry.created
+            - vault.entry.updated
+            - vault.entry.deletion.state_changed
+            - vault.export.state_changed
+            - vault.provider.state_changed
+            - vault.share.revoked
+            - vault.migration.state_changed
+      additionalProperties: false
+  responses:
+    Problem:
+      description: Problem Details
+      content:
+        application/problem+json:
+          schema:
+            $ref: '#/components/schemas/Problem'

@@ -1,0 +1,34 @@
+{
+  "artifact_id": "CHGO-API-R1R2-01",
+  "version": "1.0",
+  "date": "2026-09-12",
+  "evidence_type": "DECLARED_SOURCE_FINGERPRINT_ONLY",
+  "v1": {
+    "file": "CHGO_OpenAPI_Baseline_v1.0.yaml",
+    "sha256": "ead4469e1625a12d07cc3286a210201cd6f8f95d383b213f7033428642f638b4",
+    "server": [
+      {
+        "url": "/api/v1",
+        "description": "CHGO API v1"
+      }
+    ],
+    "paths": 45,
+    "operations": 48
+  },
+  "v2": {
+    "file": "CHGO_Public_and_Headless_OpenAPI_v2_Consolidated_Baseline_1.0.yaml",
+    "sha256": "c2cb5d9ba8b2de519795550e5628f4160b16d2f48414b386293cae7aecc8dfa1",
+    "server": [
+      {
+        "url": "/api/v2",
+        "description": "CHGO public/headless API v2 candidate baseline"
+      }
+    ],
+    "paths": 42,
+    "operations": 48
+  },
+  "exact_method_path_overlap": 0,
+  "runtime_route_fingerprint": "NOT_RUN",
+  "consumer_observation": "NOT_RUN",
+  "b04": "OPEN"
+}

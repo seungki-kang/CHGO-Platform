@@ -1,0 +1,49 @@
+﻿v1_method,v1_path,v1_operationId,v1_summary,classification,v2_candidate,migration_action
+POST,/candidates/{candidate_id}/confirmations,,Human confirmation of candidate,NO DIRECT v2 MATCH,None identified,Retain v1 during coexistence; do not retire until replacement/retirement decision.
+GET,/coach/assignments,,List coach assignments,SEMANTIC REVIEW REQUIRED,GET /coach/shared-vault-resources (different resource model; not equivalent),Design explicit adapter/mapping; contract-test before any consumer migration.
+GET,/coach/participants/{participant_token}/episodes,,Read scoped participant episodes,NO DIRECT v2 MATCH,None identified,Retain v1 during coexistence; do not retire until replacement/retirement decision.
+GET,/coach/participants/{participant_token}/evidence,,Read scoped participant evidence,NO DIRECT v2 MATCH,None identified,Retain v1 during coexistence; do not retire until replacement/retirement decision.
+POST,/episodes,,Create growth episode,NO DIRECT v2 MATCH,None identified,Retain v1 during coexistence; do not retire until replacement/retirement decision.
+GET,/episodes/{episode_id},,Get own/scoped episode,NO DIRECT v2 MATCH,None identified,Retain v1 during coexistence; do not retire until replacement/retirement decision.
+GET,/episodes/{episode_id}/candidates,,List episode candidates,NO DIRECT v2 MATCH,None identified,Retain v1 during coexistence; do not retire until replacement/retirement decision.
+POST,/episodes/{episode_id}/candidates,,Create signal candidate,NO DIRECT v2 MATCH,None identified,Retain v1 during coexistence; do not retire until replacement/retirement decision.
+GET,/episodes/{episode_id}/evidence,,List eligible/scoped evidence,NO DIRECT v2 MATCH,None identified,Retain v1 during coexistence; do not retire until replacement/retirement decision.
+POST,/episodes/{episode_id}/practices,,Create practice commitment,NO DIRECT v2 MATCH,None identified,Retain v1 during coexistence; do not retire until replacement/retirement decision.
+POST,/episodes/{episode_id}/reasoning,,Start AI reasoning,NO DIRECT v2 MATCH,None identified,Retain v1 during coexistence; do not retire until replacement/retirement decision.
+GET,/episodes/{episode_id}/timeline,,Get episode lineage timeline,NO DIRECT v2 MATCH,None identified,Retain v1 during coexistence; do not retire until replacement/retirement decision.
+POST,/evidence,,Create eligible evidence (system-gated),NO DIRECT v2 MATCH,None identified,Retain v1 during coexistence; do not retire until replacement/retirement decision.
+POST,/formation-sessions,,Start formation session,NO DIRECT v2 MATCH,None identified,Retain v1 during coexistence; do not retire until replacement/retirement decision.
+POST,/life-events,,Create life event,NO DIRECT v2 MATCH,None identified,Retain v1 during coexistence; do not retire until replacement/retirement decision.
+PATCH,/life-events/{life_event_id},,Update life event,NO DIRECT v2 MATCH,None identified,Retain v1 during coexistence; do not retire until replacement/retirement decision.
+POST,/life-events/{life_event_id}/reflections/cross,,Create cross reflection,NO DIRECT v2 MATCH,None identified,Retain v1 during coexistence; do not retire until replacement/retirement decision.
+POST,/life-events/{life_event_id}/reflections/kingdom,,Create kingdom reflection,NO DIRECT v2 MATCH,None identified,Retain v1 during coexistence; do not retire until replacement/retirement decision.
+POST,/life-events/{life_event_id}/reflections/old-person,,Create old-person reflection,NO DIRECT v2 MATCH,None identified,Retain v1 during coexistence; do not retire until replacement/retirement decision.
+POST,/life-events/{life_event_id}/reflections/responsibility,,Create responsibility reflection,NO DIRECT v2 MATCH,None identified,Retain v1 during coexistence; do not retire until replacement/retirement decision.
+POST,/life-events/{life_event_id}/reflections/within,,Create within reflection,NO DIRECT v2 MATCH,None identified,Retain v1 during coexistence; do not retire until replacement/retirement decision.
+POST,/life-journal-entries,,Create life journal entry,SEMANTIC REVIEW REQUIRED,POST /me/vaults/{vaultId}/entries (storage/privacy successor candidate; payload semantics require mapping),Design explicit adapter/mapping; contract-test before any consumer migration.
+GET,/me,,Get current actor,NO DIRECT v2 MATCH,None identified,Retain v1 during coexistence; do not retire until replacement/retirement decision.
+GET,/me/access-grants,,List own access grants,NO DIRECT v2 MATCH,None identified,Retain v1 during coexistence; do not retire until replacement/retirement decision.
+POST,/me/access-grants,,Create scoped access grant,NO DIRECT v2 MATCH,None identified,Retain v1 during coexistence; do not retire until replacement/retirement decision.
+GET,/me/consents,,List own consents,NO DIRECT v2 MATCH,None identified,Retain v1 during coexistence; do not retire until replacement/retirement decision.
+POST,/me/consents,,Grant consent,NO DIRECT v2 MATCH,None identified,Retain v1 during coexistence; do not retire until replacement/retirement decision.
+POST,/me/consents/{consent_id}/withdraw,,Withdraw consent,NO DIRECT v2 MATCH,None identified,Retain v1 during coexistence; do not retire until replacement/retirement decision.
+GET,/me/dynamics,,Get own dynamics,NO DIRECT v2 MATCH,None identified,Retain v1 during coexistence; do not retire until replacement/retirement decision.
+GET,/me/growth-profile,,Get own personal growth profile,SEMANTIC REVIEW REQUIRED,POST /churches/{churchId}/growth-aggregates (different actor/scope; NOT equivalent),Design explicit adapter/mapping; contract-test before any consumer migration.
+GET,/pastor/church-dynamics,,Get pastor-safe community dynamics,SEMANTIC REVIEW REQUIRED,GET /pastor/pulse or POST /pastor/community-growth (candidate only),Design explicit adapter/mapping; contract-test before any consumer migration.
+GET,/pastor/church-evidence,,Get pastor-safe community evidence,SEMANTIC REVIEW REQUIRED,POST /pastor/community-growth (candidate only; evidence semantics must remain governed),Design explicit adapter/mapping; contract-test before any consumer migration.
+GET,/pastor/church-growth-profile,,Get pastor-safe community growth profile,SEMANTIC REVIEW REQUIRED,POST /pastor/community-growth (candidate successor; semantic review required),Design explicit adapter/mapping; contract-test before any consumer migration.
+GET,/pastor/data-quality,,Get pastor-safe data quality,SEMANTIC REVIEW REQUIRED,GET /pastor/pulse (candidate only),Design explicit adapter/mapping; contract-test before any consumer migration.
+GET,/pastor/shared-fruit,,Get pastor-safe shared fruit,SEMANTIC REVIEW REQUIRED,POST /pastor/community-growth (candidate only),Design explicit adapter/mapping; contract-test before any consumer migration.
+POST,/practices/{practice_id}/outcomes,,Record outcome separately from practice,NO DIRECT v2 MATCH,None identified,Retain v1 during coexistence; do not retire until replacement/retirement decision.
+POST,/privacy/deletion-requests,,Request deletion,SEMANTIC REVIEW REQUIRED,POST /me/vaults/{vaultId}/deletions (Vault-scoped only; not general deletion equivalent),Design explicit adapter/mapping; contract-test before any consumer migration.
+POST,/question-instances,,Create question instance,NO DIRECT v2 MATCH,None identified,Retain v1 during coexistence; do not retire until replacement/retirement decision.
+POST,/question-instances/{question_instance_id}/responses,,Submit question response,NO DIRECT v2 MATCH,None identified,Retain v1 during coexistence; do not retire until replacement/retirement decision.
+POST,/reasoning/{reasoning_id}/handoff,,Create human handoff,NO DIRECT v2 MATCH,None identified,Retain v1 during coexistence; do not retire until replacement/retirement decision.
+POST,/reasoning/{reasoning_id}/stop,,Stop reasoning,NO DIRECT v2 MATCH,None identified,Retain v1 during coexistence; do not retire until replacement/retirement decision.
+POST,/reasoning/{reasoning_id}/transitions,,Record reasoning state transition,NO DIRECT v2 MATCH,None identified,Retain v1 during coexistence; do not retire until replacement/retirement decision.
+POST,/routing-decisions,,Create question routing decision,NO DIRECT v2 MATCH,None identified,Retain v1 during coexistence; do not retire until replacement/retirement decision.
+POST,/safety/events,,Create safety event,NO DIRECT v2 MATCH,None identified,Retain v1 during coexistence; do not retire until replacement/retirement decision.
+POST,/safety/events/{safety_event_id}/actions,,Record safety action,NO DIRECT v2 MATCH,None identified,Retain v1 during coexistence; do not retire until replacement/retirement decision.
+POST,/survey-administrations,,Start survey administration,NO DIRECT v2 MATCH,None identified,Retain v1 during coexistence; do not retire until replacement/retirement decision.
+POST,/survey-administrations/{administration_id}/complete,,Complete survey administration,NO DIRECT v2 MATCH,None identified,Retain v1 during coexistence; do not retire until replacement/retirement decision.
+PUT,/survey-administrations/{administration_id}/responses/{item_id},,Save survey response state/value,NO DIRECT v2 MATCH,None identified,Retain v1 during coexistence; do not retire until replacement/retirement decision.

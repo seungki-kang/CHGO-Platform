@@ -1,0 +1,5 @@
+locale,market,default_residency,cross_border_rule,children_default,policy_pack_status,market_owner,approved_by,approved_at_utc
+ko-KR,Korea,KR,"BLOCK until lawful basis, required disclosure/consent and processor safeguards are approved",DISABLED,BLOCKED,Korea Market Owner,,
+ja-JP,Japan,JP,"BLOCK until APPI transfer basis, recipient-country information and safeguards are approved",DISABLED,BLOCKED,Japan Market Owner,,
+en-US,United States,US,"BLOCK until applicable federal/state scope and processor/consumer-rights controls are approved",DISABLED,BLOCKED,United States Market Owner,,
+es-MX,Mexico,MX_OR_APPROVED_REGION,"BLOCK until LFPDPPP notice, consent/exception, transfer and ARCO process are approved",DISABLED,BLOCKED,Mexico Market Owner,,

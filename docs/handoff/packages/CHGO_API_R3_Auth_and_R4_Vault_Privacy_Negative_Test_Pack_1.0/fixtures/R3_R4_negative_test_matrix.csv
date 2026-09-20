@@ -1,0 +1,19 @@
+﻿test_id,domain,scenario,expected,severity
+R3-T01,Auth,Unauthenticated request to protected v2 endpoint,401/approved non-disclosing denial,P0
+R3-T02,Auth,Expired/invalid token,401; no sensitive detail,P0
+R3-T03,Tenant,Valid user attempts cross-tenant resource access,DENY/404 per policy; no existence disclosure,P0
+R3-T04,Role,Member attempts pastor/admin aggregate action,403/approved denial,P0
+R3-T05,Role,Client-supplied role/tenant selector conflicts with server authority,Server authority wins; DENY,P0
+R3-T06,Service,Headless/service credential attempts personal Vault raw access,DENY,P0
+R3-T07,Major,v1 credential/context is reused to gain broader v2 privilege,No privilege expansion,P0
+R3-T08,Enumeration,Unauthorized ID probing across tenants,Non-disclosing behavior,P0
+R4-T01,Vault,Pastor/admin attempts raw Vault entry read,DENY,P0
+R4-T02,Vault,Pastor aggregate response contains personal/raw diary fields,No raw/personal reversible field,P0
+R4-T03,Coach,Coach role without active share grant reads Vault resource,DENY,P0
+R4-T04,Coach,Revoked/expired share grant is reused,DENY immediately per policy,P0
+R4-T05,Coach,Share grant for resource A is used for resource B,DENY,P0
+R4-T06,Headless,Church app integration attempts provider credential/KMS/key access,DENY; no key/provider secret returned,P0
+R4-T07,AI,AI integration requests broader raw Vault context than authorized purpose,DENY/REDACT/HANDOFF,P0
+R4-T08,Deletion,Accepted deletion job is treated as PURGED,"Must remain lifecycle state, not false purge",P1
+R4-T09,Church Move,New church membership attempts historical raw Vault access,DENY absent explicit share,P0
+R4-T10,Leak,Error/log/webhook response contains raw diary/token/key canary,No canary leakage,P0

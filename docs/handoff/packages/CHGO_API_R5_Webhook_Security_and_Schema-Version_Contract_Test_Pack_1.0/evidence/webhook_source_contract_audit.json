@@ -1,0 +1,22 @@
+{
+  "artifact_id": "CHGO-API-R5-WEBHOOK-01",
+  "version": "1.0",
+  "date": "2026-09-12",
+  "source": "CHGO_Public_and_Headless_OpenAPI_v2_Consolidated_Baseline_1.0.yaml",
+  "source_sha256": "c2cb5d9ba8b2de519795550e5628f4160b16d2f48414b386293cae7aecc8dfa1",
+  "webhook_paths": [
+    "/headless/webhooks",
+    "/integrations/vault/webhooks"
+  ],
+  "webhook_schema_names": [
+    "ChurchToCHGOEvent",
+    "WebhookSubscription",
+    "VaultWebhookSubscriptionInput"
+  ],
+  "verified_source_facts": {
+    "/headless/webhooks": "POST; serviceCredential scope webhook.manage; RequestId + IdempotencyKey; WebhookSubscription body",
+    "/integrations/vault/webhooks": "POST; serviceCredential scope webhook.manage; RequestId + IdempotencyKey; VaultWebhookSubscriptionInput; metadata-only description"
+  },
+  "runtime_execution": "NOT_RUN",
+  "b04": "OPEN"
+}

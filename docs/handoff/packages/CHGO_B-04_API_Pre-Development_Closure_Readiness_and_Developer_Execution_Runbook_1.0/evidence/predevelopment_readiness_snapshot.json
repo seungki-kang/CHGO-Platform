@@ -1,0 +1,15 @@
+{
+  "artifact_id": "CHGO-B04-RUNBOOK-01",
+  "version": "1.0",
+  "date": "2026-09-12",
+  "predevelopment_readiness": "READY",
+  "runtime_closure": "NOT_READY",
+  "known_results": {
+    "dual_major_static_contract": "12 PASS",
+    "R1_R2": "declared fingerprint prepared; runtime NOT_RUN",
+    "R3_R4": "18 negative cases; pack integrity 3 PASS; runtime 5 SKIPPED",
+    "R5": "20 cases; source-contract 7 PASS; runtime 3 SKIPPED",
+    "R6": "20 cases; source/pack 7 PASS; actual SDK 2 SKIPPED"
+  },
+  "b04": "OPEN"
+}

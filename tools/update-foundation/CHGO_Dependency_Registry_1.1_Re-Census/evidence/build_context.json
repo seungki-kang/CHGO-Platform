@@ -1,0 +1,115 @@
+{
+  "summary": {
+    "artifact_id": "CHGO-DR-RC-01",
+    "version": "1.1",
+    "date": "2026-09-13",
+    "source": "CHGO-Platform Reconciled Candidate 1.1 plus CHGO Platform Development Roadmap 1.0 candidate",
+    "scope_file_instances": 232,
+    "logical_artifacts": 145,
+    "dependency_edges": 64,
+    "carried_forward_edges": 56,
+    "new_edges": 8,
+    "duplicate_hash_groups": 48,
+    "generated_cache_instances": 18,
+    "manifest_1_1_tracked_instances": 229,
+    "legacy_manifest_decisions": 1,
+    "new_candidate_pending_admission": 1,
+    "hash_mismatches_against_manifest_1_1": 0,
+    "decision": "RE-CENSUS COMPLETE AS CANDIDATE; REPOSITORY STRUCTURE FREEZE NOT YET APPROVED",
+    "next_step": "Repository Structure Freeze Candidate 1.0",
+    "limits": [
+      "No Windows repository was physically modified.",
+      "Runtime NOT_RUN states remain unchanged.",
+      "Canonical and Governance meaning were not modified."
+    ]
+  },
+  "anomaly_counts": {
+    "UNTRACKED_OR_NEW": 2,
+    "GENERATED_CACHE": 18
+  },
+  "type_counts": {
+    "STRUCTURE": 20,
+    "REPOSITORY_METADATA": 4,
+    "API": 4,
+    "BACKLOG": 2,
+    "CANONICAL": 2,
+    "DATABASE": 13,
+    "ARCHITECTURE": 9,
+    "GOVERNANCE": 39,
+    "HANDOFF": 97,
+    "GENERATED_CACHE": 18,
+    "PRIVACY_SECURITY": 5,
+    "PRODUCT_PLANNING": 4,
+    "TEST_EVIDENCE": 15
+  },
+  "authority_counts": {
+    "A0": 63,
+    "A3": 26,
+    "A5": 132,
+    "A1": 2,
+    "A3_L4": 5,
+    "A0_A4": 4
+  },
+  "top_duplicate_groups": [
+    {
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "instance_count": 19,
+      "paths": "api/compatibility/.gitkeep ; api/openapi/v1/.gitkeep ; apps/church-os/.gitkeep ; canonical/registry/.gitkeep ; db/migrations/chgo/.gitkeep ; db/seeds/.gitkeep ; db/views/.gitkeep ; evidence/pre-release/.gitkeep ; ontology/registry/.gitkeep ; ontology/rules/.gitkeep ; ontology/validation/.gitkeep ; scripts/.gitkeep ; services/evidence-engine/.gitkeep ; services/growth-engine/.gitkeep ; services/privacy-gateway/.gitkeep ; tests/database/.gitkeep ; tests/fixtures/.gitkeep ; tests/integration/.gitkeep ; tests/security/.gitkeep",
+      "review": "REPRESENTATION_OR_GENERATED_DUPLICATE_REVIEW"
+    },
+    {
+      "sha256": "0bd4b0c084ec750a829a4bb0cb6b639857050d3a9f7c12a0ae86ba3f52a803d8",
+      "instance_count": 3,
+      "paths": "db/validation/V012__DEV-002A_contract_tests_2.0.sql ; docs/handoff/packages/B-02_PostgreSQL_Clean_Execution_Pack_2.0/migrations/V012__DEV-002A_contract_tests_2.0.sql ; tests/contract/DEV-002A_Contract_Test_SQL_Pack_2.0.sql",
+      "review": "REPRESENTATION_OR_GENERATED_DUPLICATE_REVIEW"
+    },
+    {
+      "sha256": "37dc88ef9a0abeddbe81053a6dd8fdfb13afb613045ea1eb4a5c815a74a3bde4",
+      "instance_count": 3,
+      "paths": "docs/handoff/packages/CHGO_API_R3_Auth_and_R4_Vault_Privacy_Negative_Test_Pack_1.0/tests/.pytest_cache/CACHEDIR.TAG ; docs/handoff/packages/CHGO_API_R5_Webhook_Security_and_Schema-Version_Contract_Test_Pack_1.0/tests/.pytest_cache/CACHEDIR.TAG ; docs/handoff/packages/CHGO_API_R6_SDK_and_API-Major_Compatibility_Test_Pack_1.0/tests/.pytest_cache/CACHEDIR.TAG",
+      "review": "REPRESENTATION_OR_GENERATED_DUPLICATE_REVIEW"
+    },
+    {
+      "sha256": "3ed731b65d06150c138e2dadb0be0697550888a6b47eb8c45ecc9adba8b8e9bd",
+      "instance_count": 3,
+      "paths": "docs/handoff/packages/CHGO_API_R3_Auth_and_R4_Vault_Privacy_Negative_Test_Pack_1.0/tests/.pytest_cache/.gitignore ; docs/handoff/packages/CHGO_API_R5_Webhook_Security_and_Schema-Version_Contract_Test_Pack_1.0/tests/.pytest_cache/.gitignore ; docs/handoff/packages/CHGO_API_R6_SDK_and_API-Major_Compatibility_Test_Pack_1.0/tests/.pytest_cache/.gitignore",
+      "review": "REPRESENTATION_OR_GENERATED_DUPLICATE_REVIEW"
+    },
+    {
+      "sha256": "73fd6fccdd802c419a6b2d983d6c3173b7da97558ac4b589edec2dfe443db9ad",
+      "instance_count": 3,
+      "paths": "docs/handoff/packages/CHGO_API_R3_Auth_and_R4_Vault_Privacy_Negative_Test_Pack_1.0/tests/.pytest_cache/README.md ; docs/handoff/packages/CHGO_API_R5_Webhook_Security_and_Schema-Version_Contract_Test_Pack_1.0/tests/.pytest_cache/README.md ; docs/handoff/packages/CHGO_API_R6_SDK_and_API-Major_Compatibility_Test_Pack_1.0/tests/.pytest_cache/README.md",
+      "review": "REPRESENTATION_OR_GENERATED_DUPLICATE_REVIEW"
+    },
+    {
+      "sha256": "031f54d6ad816b3c25b374f40228645b89605f6a3769a5f583ecb81525074627",
+      "instance_count": 2,
+      "paths": "docs/handoff/packages/CHGO_Repository_Admission_Sync_and_Dependency_Registry_1.1/registry/global_rollout_priority_1.1.csv ; tools/update-foundation/CHGO_Repository_Admission_Sync_and_Dependency_Registry_1.1/registry/global_rollout_priority_1.1.csv",
+      "review": "REPRESENTATION_OR_GENERATED_DUPLICATE_REVIEW"
+    },
+    {
+      "sha256": "03887b163e7fd5bc99fc8c9bd64fb4054dcdbafb952a92d8c442a1da3b112e04",
+      "instance_count": 2,
+      "paths": "docs/governance/CHGO_Continuous_Evolution_Versioning_and_Developer_Update_Architecture_1.0/README.md ; docs/handoff/packages/CHGO_Continuous_Evolution_Versioning_and_Developer_Update_Architecture_1.0/README.md",
+      "review": "REPRESENTATION_OR_GENERATED_DUPLICATE_REVIEW"
+    },
+    {
+      "sha256": "0679ef99948c981931d9d5ea81b667702352fe78be637c5b1cf685071022d009",
+      "instance_count": 2,
+      "paths": "docs/handoff/packages/CHGO_Repository_Admission_Sync_and_Dependency_Registry_1.1/docs/CHGO_Repository_Admission_Sync_and_Dependency_Registry_1.1.docx ; tools/update-foundation/CHGO_Repository_Admission_Sync_and_Dependency_Registry_1.1/docs/CHGO_Repository_Admission_Sync_and_Dependency_Registry_1.1.docx",
+      "review": "REPRESENTATION_OR_GENERATED_DUPLICATE_REVIEW"
+    },
+    {
+      "sha256": "0d39cf7c17e1b96d82e0963c016859923eeb58a6f529495674794267850b2932",
+      "instance_count": 2,
+      "paths": "docs/handoff/packages/CHGO_Repository_Admission_Sync_and_Dependency_Registry_1.1/registry/dependency_edges_1.1.csv ; tools/update-foundation/CHGO_Repository_Admission_Sync_and_Dependency_Registry_1.1/registry/dependency_edges_1.1.csv",
+      "review": "REPRESENTATION_OR_GENERATED_DUPLICATE_REVIEW"
+    },
+    {
+      "sha256": "12c8c19f998237983a2a74618e60f1b4a63601ae99143b7247d43a709aa32dda",
+      "instance_count": 2,
+      "paths": "db/migrations/church_os/V009__seed_views_validation.sql ; docs/handoff/packages/B-02_PostgreSQL_Clean_Execution_Pack_2.0/migrations/V009__seed_views_validation.sql",
+      "review": "REPRESENTATION_OR_GENERATED_DUPLICATE_REVIEW"
+    }
+  ]
+}

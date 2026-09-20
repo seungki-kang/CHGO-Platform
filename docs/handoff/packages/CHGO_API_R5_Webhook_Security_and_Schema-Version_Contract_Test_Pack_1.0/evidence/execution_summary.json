@@ -1,0 +1,8 @@
+{
+  "artifact_id": "CHGO-API-R5-WEBHOOK-01",
+  "static_source_tests": "PASS",
+  "pytest_output": "sss.......                                                               [100%]\n7 passed, 3 skipped in 1.07s",
+  "runtime_webhook_tests": "NOT_RUN / SKIPPED without target",
+  "negative_cases_defined": 20,
+  "b04": "OPEN"
+}

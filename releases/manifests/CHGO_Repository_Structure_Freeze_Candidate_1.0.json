@@ -1,0 +1,15 @@
+{
+  "artifact_id": "CHGO-REPOSITORY-STRUCTURE-FREEZE-CANDIDATE-1.0",
+  "date": "2026-09-13",
+  "active_root": "CHGO-Platform",
+  "decision_scope": "repository_structure_only",
+  "recommendation": "APPROVE_STRUCTURE_ONLY",
+  "overall_development_baseline": "NO-GO",
+  "open_gates": [
+    "B-02",
+    "B-03",
+    "B-04",
+    "C-02"
+  ],
+  "validation_evidence": "evidence/pre-release/CHGO_Repository_Structure_Freeze_Validation_1.0.json"
+}

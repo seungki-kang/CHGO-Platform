@@ -1,0 +1,16 @@
+{
+  "gate_id": "C-02",
+  "evaluated_at_utc": "2026-09-14T00:00:00Z",
+  "candidate_status": "READY_FOR_OWNER_APPROVAL",
+  "production_gate": "OPEN",
+  "static_policy_checks": "PASS",
+  "required_decisions": 14,
+  "decision_rows_present": 14,
+  "regional_rows_required": 4,
+  "regional_rows_present": 4,
+  "approvals_complete": false,
+  "regional_packs_approved": false,
+  "runtime_evidence_complete": false,
+  "canonical_modified": false,
+  "closure_allowed": false
+}

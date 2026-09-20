@@ -1,0 +1,18 @@
+{
+  "artifact_id": "CHGO-B03-ACCEPTANCE-SECURITY-EXECUTION-READY-CANDIDATE-1.0",
+  "date": "2026-09-14",
+  "gate": "B-03",
+  "registered_cases": 142,
+  "static_validation": "PASS",
+  "runtime_execution": "NOT_RUN",
+  "decision": "BLOCKED_RUNTIME",
+  "b03_gate": "OPEN",
+  "canonical_modified": false,
+  "blockers": [
+    "B-02 PostgreSQL runtime open",
+    "No executable API/MVP target",
+    "No synthetic test credentials",
+    "B-04 consolidated OpenAPI v2 pending"
+  ],
+  "evidence": "docs/handoff/packages/CHGO_B03_Acceptance_and_Security_Execution_Pack_1.0/evidence/B03_execution_state_1.0.json"
+}

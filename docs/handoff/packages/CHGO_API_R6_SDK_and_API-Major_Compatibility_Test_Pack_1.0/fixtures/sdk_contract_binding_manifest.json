@@ -1,0 +1,29 @@
+{
+  "artifact_id": "CHGO-API-R6-SDK-01",
+  "version": "1.0",
+  "date": "2026-09-12",
+  "lifecycle": "TEST EXECUTION PACK CANDIDATE",
+  "sdk_policy": {
+    "supported_api_major_must_be_explicit": true,
+    "silent_major_switch_forbidden": true,
+    "api_latest_forbidden": true,
+    "sdk_semver_required": true,
+    "incompatible_api_major_change_requires_sdk_major_review": true
+  },
+  "contract_bindings": {
+    "v1": {
+      "server": "/api/v1",
+      "sha256": "ead4469e1625a12d07cc3286a210201cd6f8f95d383b213f7033428642f638b4",
+      "paths": 45,
+      "operations": 48
+    },
+    "v2": {
+      "server": "/api/v2",
+      "sha256": "c2cb5d9ba8b2de519795550e5628f4160b16d2f48414b386293cae7aecc8dfa1",
+      "paths": 42,
+      "operations": 48
+    }
+  },
+  "runtime_sdk_consumers": "NOT_OBSERVED",
+  "b04": "OPEN"
+}

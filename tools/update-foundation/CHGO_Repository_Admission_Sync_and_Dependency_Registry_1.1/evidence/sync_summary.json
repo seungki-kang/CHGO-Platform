@@ -1,0 +1,14 @@
+{
+  "artifact_id": "CHGO-RAS-DR-01",
+  "version": "1.1",
+  "date": "2026-09-12",
+  "base_snapshot_entries": 64,
+  "admission_candidates": 13,
+  "candidate_sources_available_in_current_runtime": 13,
+  "repository_extensions_proposed": 12,
+  "dependency_edges_total": 56,
+  "new_dependency_edges": 22,
+  "global_priority": "Korea source; Japan active; United States and Mexico parallel launch",
+  "windows_physical_sync": "NOT_RUN",
+  "decision": "READY FOR WINDOWS REPOSITORY ADMISSION SYNC; NOT YET PHYSICALLY ADMITTED"
+}

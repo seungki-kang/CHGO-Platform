@@ -1,0 +1,29 @@
+{
+  "artifact_id": "CHGO-B04-OPENAPI-STATIC-VALIDATION-1.0",
+  "date": "2026-09-14",
+  "result": "PASS",
+  "spec_path": "api/openapi/v2/CHGO_Public_and_Headless_OpenAPI_v2_Consolidated_Baseline_1.0.yaml",
+  "openapi": "3.1.0",
+  "paths": 42,
+  "operations": 48,
+  "schemas": 37,
+  "internal_refs": 484,
+  "delta_paths_covered": 20,
+  "compatibility_rows": 48,
+  "r3_r4_r5_static_tests_passed": 10,
+  "v2_openapi_sha256": "8649ab9ca7e643c2174624b5a974198f298e11875c7887747ddf26479f6dc67c",
+  "size_bytes": 73155,
+  "canonical_modified": false,
+  "runtime_execution": "NOT_RUN",
+  "b04_gate": "OPEN",
+  "open_dependencies": [
+    "R1 deployed route fingerprint",
+    "R2 consumer observation",
+    "R3/R4 runtime negative tests",
+    "R5 runtime webhook tests",
+    "R6 real SDK/client binding",
+    "R7 canary and rollback",
+    "R8 evidence approval"
+  ],
+  "pdv008_static_contract": "20 PASS"
+}

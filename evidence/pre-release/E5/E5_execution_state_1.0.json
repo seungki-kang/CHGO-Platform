@@ -1,0 +1,13 @@
+{
+  "gate": "E5",
+  "candidate_status": "EXECUTION_READY",
+  "production_gate": "OPEN",
+  "static_regression": "PASS",
+  "runtime_regression": "NOT_RUN",
+  "rollback_dry_run": "NOT_RUN",
+  "rollback_runtime_proof": "NOT_RUN",
+  "c02_gate": "OPEN",
+  "reviewer_approval": "PENDING",
+  "canonical_modified": false,
+  "closure_allowed": false
+}

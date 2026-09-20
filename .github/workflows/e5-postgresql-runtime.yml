@@ -1,0 +1,87 @@
+name: E5 PostgreSQL Runtime and Rollback Evidence
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  e5-postgresql-runtime:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    services:
+      postgres:
+        image: postgres:16
+        env:
+          POSTGRES_USER: postgres
+          POSTGRES_PASSWORD: e5_ci_ephemeral_only
+          POSTGRES_DB: postgres
+        ports:
+          - 5432:5432
+        options: >-
+          --health-cmd "pg_isready -U postgres -d postgres"
+          --health-interval 5s
+          --health-timeout 5s
+          --health-retries 12
+    env:
+      PGPASSWORD: e5_ci_ephemeral_only
+      DATABASE_URL: postgresql://postgres:e5_ci_ephemeral_only@localhost:5432/chgo_e5_runtime
+      ADMIN_DATABASE_URL: postgresql://postgres:e5_ci_ephemeral_only@localhost:5432/postgres
+      B02_DB_NAME: chgo_e5_runtime
+      E5_EVIDENCE_DIR: evidence/runtime/E5/github-actions
+
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.13"
+
+      - name: Install validation dependencies
+        run: python -m pip install --disable-pip-version-check PyYAML==6.0.3 pytest requests
+
+      - name: Record clean environment
+        run: |
+          mkdir -p "$E5_EVIDENCE_DIR"
+          psql "$ADMIN_DATABASE_URL" -Atqc "select version();" | tee "$E5_EVIDENCE_DIR/postgresql-version.log"
+          python --version 2>&1 | tee "$E5_EVIDENCE_DIR/python-version.log"
+          git rev-parse HEAD | tee "$E5_EVIDENCE_DIR/commit-sha.txt"
+
+      - name: Run static regression
+        run: python tools/validation/validate_e5_regression.py | tee "$E5_EVIDENCE_DIR/static-regression.log"
+
+      - name: Create disposable database
+        run: createdb --maintenance-db="$ADMIN_DATABASE_URL" "$B02_DB_NAME"
+
+      - name: Execute B-02 migrations and replay
+        run: |
+          bash docs/handoff/packages/B-02_PostgreSQL_Clean_Execution_Pack_2.0/scripts/run_clean_execution.sh
+          cp docs/handoff/packages/B-02_PostgreSQL_Clean_Execution_Pack_2.0/evidence/B02_clean_execution.log "$E5_EVIDENCE_DIR/"
+
+      - name: Execute dump drop recreate restore
+        run: |
+          bash docs/handoff/packages/B-02_PostgreSQL_Clean_Execution_Pack_2.0/scripts/rollback_restore_fixture.sh
+          cp docs/handoff/packages/B-02_PostgreSQL_Clean_Execution_Pack_2.0/evidence/B02_rollback_restore.log "$E5_EVIDENCE_DIR/"
+
+      - name: Verify restored database
+        run: |
+          psql "$DATABASE_URL" -X -v ON_ERROR_STOP=1 -Atqc "select current_database(),current_user,current_setting('server_version_num');" | tee "$E5_EVIDENCE_DIR/restored-connection.log"
+          psql "$DATABASE_URL" -X -v ON_ERROR_STOP=1 -P pager=off -c "TABLE b02_test.result ORDER BY test_id;" | tee "$E5_EVIDENCE_DIR/restored-b02-results.log"
+          psql "$DATABASE_URL" -X -v ON_ERROR_STOP=1 -Atqc "select count(*) from b02_test.result where status <> 'PASS';" | tee "$E5_EVIDENCE_DIR/non-pass-count.txt"
+          test "$(cat "$E5_EVIDENCE_DIR/non-pass-count.txt")" = "0"
+
+      - name: Create evidence summary
+        if: always()
+        run: python scripts/ci/collect_e5_postgresql_evidence.py
+
+      - name: Upload immutable evidence artifact
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: E5-PostgreSQL-Runtime-Evidence-${{ github.run_id }}
+          path: evidence/runtime/E5/github-actions/
+          if-no-files-found: error
+          retention-days: 90

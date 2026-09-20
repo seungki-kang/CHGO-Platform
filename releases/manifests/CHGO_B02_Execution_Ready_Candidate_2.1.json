@@ -1,0 +1,23 @@
+{
+  "artifact_id": "CHGO-B02-EXECUTION-READY-CANDIDATE-2.1",
+  "date": "2026-09-13",
+  "status": "BLOCKED_RUNTIME",
+  "b02_gate": "OPEN",
+  "runtime_execution": "NOT_RUN",
+  "static_validation": "PASS",
+  "migration_count": 12,
+  "fixed": [
+    "Windows migration directory resolution",
+    "PostgreSQL 16 preflight",
+    "Windows rollback restore fixture"
+  ],
+  "required_to_close": [
+    "PostgreSQL 16+ clean apply",
+    "V010 replay",
+    "PHY-T01-T12",
+    "contract tests",
+    "dump drop recreate restore",
+    "reviewer evidence approval"
+  ],
+  "evidence": "docs/handoff/packages/B-02_PostgreSQL_Clean_Execution_Pack_2.0/evidence/execution_state.json"
+}

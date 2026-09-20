@@ -1,0 +1,15 @@
+{
+  "artifact_id": "CHGO-PDV008-EXECUTABLE-TEST-FOUNDATION-1.0",
+  "date": "2026-09-14",
+  "lifecycle": "VALIDATED_CANDIDATE",
+  "decision": "STRUCTURALLY_EXECUTABLE_RUNTIME_BLOCKED",
+  "source_tests": 84,
+  "unique_parent_gates": 84,
+  "pdv7_static_checks": "20 PASS",
+  "runtime_tests": "84 NOT_RUN",
+  "b03_gate": "OPEN",
+  "b04_gate": "OPEN",
+  "canonical_modified": false,
+  "openapi_sha256": "8649ab9ca7e643c2174624b5a974198f298e11875c7887747ddf26479f6dc67c",
+  "promotion_rule": "Execution-validated status requires controlled runtime evidence for applicable tests."
+}

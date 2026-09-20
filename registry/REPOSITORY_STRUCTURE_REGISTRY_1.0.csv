@@ -1,0 +1,19 @@
+﻿path,authority,purpose,owner_role,allowed_types,policy
+canonical,A1,Approved meaning and source provenance,Canonical Steward,docx csv json ttl owl md,CONTROLLED
+ontology,A2,Ontology registry rules schemas projections validation,Ontology Lead,csv json yaml ttl owl shacl md,CONTROLLED
+registry,A0 A3,Artifact dependency and repository registries,Governance Lead,csv json md,CONTROLLED
+docs,A0 A3 A4 A5,Human-readable specifications and runbooks,Governance Lead,docx xlsx csv md pdf,CONTROLLED
+db,A3,Migrations seeds views and DB validation,Data Architect,sql csv json md,IMMUTABLE_MIGRATIONS
+api,A3,Versioned API contracts and compatibility,API Lead,yaml yml json csv docx md,CONTROLLED
+services,A4,Deployable domain services,Tech Lead,source config md,IMPLEMENTATION
+apps,A4,User-facing applications,Product Lead,source assets config md,IMPLEMENTATION
+packages,A3 A4,Shared reusable packages,Tech Lead,source config md,IMPLEMENTATION
+localization,A3 A4,Locale and regional overlays,Localization Lead,json yaml csv md,CONTROLLED
+tests,A5,Automated and operational validation,QA Lead,source sql csv json md docx,EVIDENCE_BOUNDARY
+infrastructure,A3 A5,CI deployment environment templates observability,DevOps Lead,yaml yml json source md,NO_SECRETS
+changes,A0,Change Object lifecycle,Governance Lead,json csv md,WORKFLOW
+releases,A0 A5,Release lineage compatibility rollback observation,Release Authority,json csv md docx,WORKFLOW
+feature-flags,A3 A4,Staged rollout policy and registry,Release Authority,json yaml csv md,CONTROLLED
+tools,A0 A3 A5,Impact validation migration and release tools,Tech Lead,source json csv md,IMPLEMENTATION
+backlog,A5,Implementation planning,Product Owner,xlsx csv md,PLANNING
+evidence,A5,Actual run evidence only,QA Lead,json csv txt log md,EXECUTION_ONLY

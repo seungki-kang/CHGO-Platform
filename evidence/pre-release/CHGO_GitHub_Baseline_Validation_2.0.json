@@ -1,0 +1,26 @@
+{
+  "artifact": "CHGO-Platform GitHub Candidate 2.0",
+  "validation_scope": "static and repository-integrity checks",
+  "results": {
+    "e5_static_regression": "PASS",
+    "e5_runtime_regression": "NOT_RUN",
+    "e5_rollback_runtime_proof": "NOT_RUN",
+    "c02_static_structure": "PASS",
+    "c02_approvals_complete": false,
+    "c02_regional_packs_approved": false,
+    "b04_openapi": "PASS",
+    "repository_manifest_integrity": "PASS",
+    "nested_archives": 0,
+    "generated_junk_files": 0,
+    "credential_signature_matches": 0
+  },
+  "release_status": {
+    "github_baseline_candidate": "READY",
+    "production_gate": "OPEN"
+  },
+  "notes": [
+    "READY means suitable for a private GitHub pre-development baseline.",
+    "READY does not mean production approval.",
+    "Runtime regression and rollback evidence still require an actual execution environment."
+  ]
+}

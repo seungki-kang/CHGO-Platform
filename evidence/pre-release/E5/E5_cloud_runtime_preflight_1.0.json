@@ -1,0 +1,13 @@
+{
+  "candidate": "E5_CLOUD_POSTGRESQL_RUNTIME_1.0",
+  "source_zip_integrity": "PASS",
+  "source_zip_entries": 603,
+  "source_files_detected": 364,
+  "excluded_nested_update_directories": ["B04_UPDATE", "B04_UPDATE (2)"],
+  "excluded_install_residue": ["CHANGED_FILES.txt", "REMOVED_FILES.txt", "INSTALL_B04_UPDATE.txt", "INSTALL_PDV008_UPDATE.txt"],
+  "workflow_static_validation": "PASS",
+  "postgresql_runtime": "PENDING_GITHUB_ACTIONS",
+  "api_runtime": "BLOCKED_NO_RUNTIME_IMPLEMENTATION",
+  "production_gate": "OPEN",
+  "canonical_modified": false
+}

@@ -1,0 +1,7 @@
+﻿gate_id,issue,state,next_action
+B-01,Repository baseline,SUBSTANTIALLY REMEDIATED,Final freeze reconciliation remains
+B-02,PostgreSQL migration execution,OPEN,Run clean DB migrations + validation/rollback evidence
+B-03,Contract/MVP runtime tests,PARTIAL,Run DB/API/integration/acceptance/security suites
+B-04,API lineage/compatibility,OPEN - PRE-DEVELOPMENT READY,Execute R1-R6 in real dev/staging environment
+C-01,White-label/Headless,CLOSURE CANDIDATE,Validate implementation
+C-02,Production privacy policy,OPEN,Resolve retention/residency/backup/minors/AI policy decisions

@@ -1,0 +1,7 @@
+﻿id,name,result,evidence
+B02-S01,마이그레이션 수,PASS,12개
+B02-S02,V001-V012 연속성,PASS,누락 없음
+B02-S03,저장소 원본 해시 일치,PASS,12개 일치
+B02-S04,Linux 실행기 구문,PASS,4개 bash -n 통과
+B02-S05,파괴 SQL 정적 탐지,PASS,운영 대상 없음; 테스트 결과 테이블 초기화 1건 허용
+B02-S06,PostgreSQL 16 런타임,BLOCKED,psql postgres docker podman 및 DATABASE_URL 없음

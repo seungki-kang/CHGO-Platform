@@ -1,0 +1,8 @@
+domain_id,technical_name,owns,may_consume_via_contract,must_not_do,status
+DOM-IDENTITY,identity-core,"canonical person ID; authentication; account linking; church membership linkage","product profile references; consent decisions","merge accounts by email alone",CANDIDATE
+DOM-CHGO,chgo-engine,"pseudonymous growth signals; evidence; reasoning; recommendations","consented domain events; canonical ontology","store raw diary or redefine JesusLife Canonical",CANDIDATE
+DOM-SCRIPTURE,scripture-service,"Scripture metadata; reading progress; contextual links","identity references; consented CHGO recommendations","read Church OS or Prayer databases directly",CANDIDATE
+DOM-PRAYER,prayer-service,"prayer request lifecycle; participation; privacy scope; testimony metadata","identity references; Scripture links; consented CHGO bridge","expose sensitive prayer text without explicit scope",CANDIDATE
+DOM-CHURCH,church-service,"church tenant; membership; roles; groups; operations","identity references; approved CHGO results","read private Vault or another product database directly",CANDIDATE
+DOM-PRIVACY,privacy-gateway,"consent; purpose; scope; retention; protected exchange decisions","all protected exchange metadata","downgrade a denial or retain raw protected content in logs",CANDIDATE
+DOM-INTEGRATION,integration-gateway,"versioned APIs; events; webhooks; adapters; rate limits","published domain contracts","become a source of canonical meaning or domain-owned data",CANDIDATE

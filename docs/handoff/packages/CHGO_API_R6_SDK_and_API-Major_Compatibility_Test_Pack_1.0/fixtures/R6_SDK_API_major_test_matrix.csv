@@ -1,0 +1,21 @@
+﻿test_id,domain,scenario,expected,severity
+R6-T01,Major Declaration,SDK/client manifest omits supported API major,Build/release blocked,P0
+R6-T02,Silent Switch,v1-configured client resolves /api/v2 without explicit migration,FAIL; no silent major switch,P0
+R6-T03,Silent Switch,v2-configured client resolves /api/v1 fallback automatically,FAIL unless explicit approved compatibility adapter,P0
+R6-T04,Base URL,Client uses /api/latest or unversioned /api,FAIL,P0
+R6-T05,Generated Client,v1 SDK generated from wrong v2 contract,FAIL hash/major binding,P0
+R6-T06,Generated Client,v2 SDK generated from wrong v1 contract,FAIL hash/major binding,P0
+R6-T07,Operation Surface,v1 SDK assumes v2 Vault endpoint exists,Compile/contract failure; no invented operation,P0
+R6-T08,Operation Surface,v2 SDK assumes v1 reasoning/evidence endpoint exists,Compile/contract failure; no invented operation,P0
+R6-T09,Auth Scope,SDK broadens credential scope while changing major,FAIL security regression,P0
+R6-T10,Tenant Context,SDK trusts client tenant/role claim as authority,FAIL,P0
+R6-T11,Idempotency,v2 mutating operation requiring Idempotency-Key omits it,Client validation or server-safe failure,P1
+R6-T12,Error Contract,Client branches on localized error text,FAIL; use stable machine error code,P1
+R6-T13,Webhook,SDK webhook helper omits declared schema/event version handling,FAIL release gate,P0
+R6-T14,Vault Privacy,SDK exposes provider/KMS secret or raw Vault shortcut to church app,FAIL,P0
+R6-T15,Coach,SDK maps coach role directly to Vault read permission,FAIL,P0
+R6-T16,Pastor,SDK exposes raw Vault/person endpoint through pastor facade,FAIL,P0
+R6-T17,Compatibility,v1 used operation has no RETAIN/ADAPTER/REPLACED/RETIRE decision,Migration blocked,P0
+R6-T18,Deprecation,SDK marks v1 retired without observed consumer evidence,FAIL governance gate,P0
+R6-T19,SemVer,SDK incompatible API-major change released as minor/patch,FAIL,P0
+R6-T20,Canary,SDK logs request/response raw diary/token/key canary,FAIL,P0

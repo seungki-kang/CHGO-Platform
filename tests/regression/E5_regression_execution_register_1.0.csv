@@ -1,0 +1,8 @@
+suite_id,scope,command_or_evidence,static_status,runtime_status,blocking,owner
+E5-R01,Repository structure,tools/update-foundation/validation/validate_structure_freeze.py,AVAILABLE,NOT_RUN,YES,Release Engineering
+E5-R02,B-02 PostgreSQL,docs/handoff/packages/B-02_PostgreSQL_Clean_Execution_Pack_2.0,AVAILABLE,NOT_RUN,YES,Database Owner
+E5-R03,B-03 acceptance/security,docs/handoff/packages/CHGO_B03_Acceptance_and_Security_Execution_Pack_1.0,AVAILABLE,NOT_RUN,YES,QA/Security
+E5-R04,B-04 OpenAPI,python tools/validation/validate_b04_openapi.py,PASS,NOT_RUN,YES,API Owner
+E5-R05,PDV-008 Vault,python tests/acceptance/pdv008/scripts/run_static_validation.py,PASS,NOT_RUN,YES,Privacy/Security
+E5-R06,C-02 privacy policy,python tools/validation/validate_c02_policy.py,PASS,NOT_RUN,YES,Privacy/Legal
+E5-R07,Rollback recovery,releases/rollback/E5/E5_rollback_control_register_1.0.csv,AVAILABLE,NOT_RUN,YES,Operations

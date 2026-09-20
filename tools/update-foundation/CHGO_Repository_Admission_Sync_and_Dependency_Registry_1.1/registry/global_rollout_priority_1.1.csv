@@ -1,0 +1,6 @@
+﻿locale,market,rollout_mode,priority,state
+ko-KR,Korea,SOURCE_MARKET,P0,ACTIVE_SOURCE
+ja-JP,Japan,ACTIVE_OVERSEAS,P0,IN_PROGRESS
+en-US,United States,PARALLEL_LAUNCH,P0,PLANNED_PARALLEL
+es-MX,Mexico,PARALLEL_LAUNCH,P0,PLANNED_PARALLEL
+es-*,Other Latin America,FOLLOW_ON,P1/P2,FUTURE

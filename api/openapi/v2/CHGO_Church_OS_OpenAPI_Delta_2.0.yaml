@@ -1,0 +1,1431 @@
+openapi: 3.1.0
+info:
+  title: CHGO Church OS OpenAPI Delta
+  version: 2.0.0
+  description: Church OS 2.0 additive API delta. L3 Church OS remains operational SoR; protected CHGO exchanges
+    pass through L4 Privacy Gateway and use pseudonymous minimum data. Candidate≠Evidence; Practice≠Outcome; Missing≠0;
+    No Opportunity≠Failure; Pastor Aggregate Only.
+servers:
+- url: /api/v2
+  description: Church OS 2.0 baseline
+tags:
+- name: Today
+- name: Formation
+- name: Mission
+- name: Care
+- name: Prayer
+- name: Privacy Gateway
+- name: CHGO Bridge
+- name: Pastor
+- name: Headless
+- name: Webhooks
+security:
+- userBearer: []
+paths:
+  /me/today:
+    get:
+      summary: Get role-aware Today actions
+      tags:
+      - Today
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  items:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/TodayAction'
+                  meta:
+                    $ref: '#/components/schemas/PageMeta'
+        '400':
+          $ref: '#/components/responses/Problem'
+        '401':
+          $ref: '#/components/responses/Problem'
+        '403':
+          $ref: '#/components/responses/Problem'
+        '409':
+          $ref: '#/components/responses/Problem'
+        '422':
+          $ref: '#/components/responses/Problem'
+        '429':
+          $ref: '#/components/responses/Problem'
+        '503':
+          $ref: '#/components/responses/Problem'
+      description: Operational Today remains available when CHGO Engine is unavailable.
+      parameters:
+      - $ref: '#/components/parameters/RequestId'
+  /me/today/{action_id}:
+    patch:
+      summary: Update Today action state
+      tags:
+      - Today
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                type: object
+                additionalProperties: true
+        '400':
+          $ref: '#/components/responses/Problem'
+        '401':
+          $ref: '#/components/responses/Problem'
+        '403':
+          $ref: '#/components/responses/Problem'
+        '409':
+          $ref: '#/components/responses/Problem'
+        '422':
+          $ref: '#/components/responses/Problem'
+        '429':
+          $ref: '#/components/responses/Problem'
+        '503':
+          $ref: '#/components/responses/Problem'
+      parameters:
+      - $ref: '#/components/parameters/RequestId'
+      - name: action_id
+        in: path
+        required: true
+        schema:
+          type: string
+          format: uuid
+      - $ref: '#/components/parameters/IfMatch'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+              - state
+              properties:
+                state:
+                  type: string
+                  enum:
+                  - OPEN
+                  - DISMISSED
+                  - COMPLETED
+  /formation/packs:
+    get:
+      summary: List enabled formation packs
+      tags:
+      - Formation
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/FormationPack'
+        '400':
+          $ref: '#/components/responses/Problem'
+        '401':
+          $ref: '#/components/responses/Problem'
+        '403':
+          $ref: '#/components/responses/Problem'
+        '409':
+          $ref: '#/components/responses/Problem'
+        '422':
+          $ref: '#/components/responses/Problem'
+        '429':
+          $ref: '#/components/responses/Problem'
+        '503':
+          $ref: '#/components/responses/Problem'
+      parameters:
+      - $ref: '#/components/parameters/RequestId'
+  /formation/journeys:
+    get:
+      summary: List formation journeys
+      tags:
+      - Formation
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/FormationJourney'
+        '400':
+          $ref: '#/components/responses/Problem'
+        '401':
+          $ref: '#/components/responses/Problem'
+        '403':
+          $ref: '#/components/responses/Problem'
+        '409':
+          $ref: '#/components/responses/Problem'
+        '422':
+          $ref: '#/components/responses/Problem'
+        '429':
+          $ref: '#/components/responses/Problem'
+        '503':
+          $ref: '#/components/responses/Problem'
+      parameters:
+      - $ref: '#/components/parameters/RequestId'
+  /formation/journeys/{journey_id}/enrollments:
+    post:
+      summary: Enroll current/authorized participant in formation journey
+      tags:
+      - Formation
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Enrollment'
+        '400':
+          $ref: '#/components/responses/Problem'
+        '401':
+          $ref: '#/components/responses/Problem'
+        '403':
+          $ref: '#/components/responses/Problem'
+        '409':
+          $ref: '#/components/responses/Problem'
+        '422':
+          $ref: '#/components/responses/Problem'
+        '429':
+          $ref: '#/components/responses/Problem'
+        '503':
+          $ref: '#/components/responses/Problem'
+      parameters:
+      - $ref: '#/components/parameters/RequestId'
+      - $ref: '#/components/parameters/IdempotencyKey'
+      - name: journey_id
+        in: path
+        required: true
+        schema:
+          type: string
+          format: uuid
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                person_ref:
+                  type:
+                  - string
+                  - 'null'
+  /formation/enrollments/{enrollment_id}/reflections:
+    post:
+      summary: Submit visibility-bound formation reflection
+      tags:
+      - Formation
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                type: object
+                additionalProperties: true
+        '400':
+          $ref: '#/components/responses/Problem'
+        '401':
+          $ref: '#/components/responses/Problem'
+        '403':
+          $ref: '#/components/responses/Problem'
+        '409':
+          $ref: '#/components/responses/Problem'
+        '422':
+          $ref: '#/components/responses/Problem'
+        '429':
+          $ref: '#/components/responses/Problem'
+        '503':
+          $ref: '#/components/responses/Problem'
+      description: Raw reflection body is not accepted inline; protected vault pointer may be referenced.
+      parameters:
+      - $ref: '#/components/parameters/RequestId'
+      - $ref: '#/components/parameters/IdempotencyKey'
+      - name: enrollment_id
+        in: path
+        required: true
+        schema:
+          type: string
+          format: uuid
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ReflectionInput'
+  /formation/enrollments/{enrollment_id}/practices:
+    post:
+      summary: Record practice without inferring outcome
+      tags:
+      - Formation
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                type: object
+                additionalProperties: true
+        '400':
+          $ref: '#/components/responses/Problem'
+        '401':
+          $ref: '#/components/responses/Problem'
+        '403':
+          $ref: '#/components/responses/Problem'
+        '409':
+          $ref: '#/components/responses/Problem'
+        '422':
+          $ref: '#/components/responses/Problem'
+        '429':
+          $ref: '#/components/responses/Problem'
+        '503':
+          $ref: '#/components/responses/Problem'
+      parameters:
+      - $ref: '#/components/parameters/RequestId'
+      - $ref: '#/components/parameters/IdempotencyKey'
+      - name: enrollment_id
+        in: path
+        required: true
+        schema:
+          type: string
+          format: uuid
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PracticeInput'
+  /mission/programs:
+    get:
+      summary: List mission programs
+      tags:
+      - Mission
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/MissionProgram'
+        '400':
+          $ref: '#/components/responses/Problem'
+        '401':
+          $ref: '#/components/responses/Problem'
+        '403':
+          $ref: '#/components/responses/Problem'
+        '409':
+          $ref: '#/components/responses/Problem'
+        '422':
+          $ref: '#/components/responses/Problem'
+        '429':
+          $ref: '#/components/responses/Problem'
+        '503':
+          $ref: '#/components/responses/Problem'
+      parameters:
+      - $ref: '#/components/parameters/RequestId'
+  /mission/runs:
+    get:
+      summary: List mission runs visible to actor
+      tags:
+      - Mission
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/MissionRun'
+        '400':
+          $ref: '#/components/responses/Problem'
+        '401':
+          $ref: '#/components/responses/Problem'
+        '403':
+          $ref: '#/components/responses/Problem'
+        '409':
+          $ref: '#/components/responses/Problem'
+        '422':
+          $ref: '#/components/responses/Problem'
+        '429':
+          $ref: '#/components/responses/Problem'
+        '503':
+          $ref: '#/components/responses/Problem'
+      parameters:
+      - $ref: '#/components/parameters/RequestId'
+  /mission/runs/{run_id}/enrollments:
+    post:
+      summary: Enroll participant in mission run
+      tags:
+      - Mission
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                type: object
+                additionalProperties: true
+        '400':
+          $ref: '#/components/responses/Problem'
+        '401':
+          $ref: '#/components/responses/Problem'
+        '403':
+          $ref: '#/components/responses/Problem'
+        '409':
+          $ref: '#/components/responses/Problem'
+        '422':
+          $ref: '#/components/responses/Problem'
+        '429':
+          $ref: '#/components/responses/Problem'
+        '503':
+          $ref: '#/components/responses/Problem'
+      parameters:
+      - $ref: '#/components/parameters/RequestId'
+      - $ref: '#/components/parameters/IdempotencyKey'
+      - name: run_id
+        in: path
+        required: true
+        schema:
+          type: string
+          format: uuid
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                person_ref:
+                  type:
+                  - string
+                  - 'null'
+  /mission/enrollments/{enrollment_id}/actions:
+    post:
+      summary: Record mission action and opportunity state
+      tags:
+      - Mission
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                type: object
+                additionalProperties: true
+        '400':
+          $ref: '#/components/responses/Problem'
+        '401':
+          $ref: '#/components/responses/Problem'
+        '403':
+          $ref: '#/components/responses/Problem'
+        '409':
+          $ref: '#/components/responses/Problem'
+        '422':
+          $ref: '#/components/responses/Problem'
+        '429':
+          $ref: '#/components/responses/Problem'
+        '503':
+          $ref: '#/components/responses/Problem'
+      description: Participation/action completion MUST NOT be treated as Growth Evidence or spiritual rank.
+      parameters:
+      - $ref: '#/components/parameters/RequestId'
+      - $ref: '#/components/parameters/IdempotencyKey'
+      - name: enrollment_id
+        in: path
+        required: true
+        schema:
+          type: string
+          format: uuid
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+              - action_id
+              - action_state
+              - opportunity_state
+              properties:
+                action_id:
+                  type: string
+                  format: uuid
+                action_state:
+                  type: string
+                opportunity_state:
+                  type: string
+                  enum:
+                  - AVAILABLE
+                  - NO_OPPORTUNITY
+                  - UNKNOWN
+                  - NOT_APPLICABLE
+                occurred_at:
+                  type:
+                  - string
+                  - 'null'
+                  format: date-time
+  /care/requests:
+    post:
+      summary: Create care request metadata with protected content reference
+      tags:
+      - Care
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                type: object
+                additionalProperties: true
+        '400':
+          $ref: '#/components/responses/Problem'
+        '401':
+          $ref: '#/components/responses/Problem'
+        '403':
+          $ref: '#/components/responses/Problem'
+        '409':
+          $ref: '#/components/responses/Problem'
+        '422':
+          $ref: '#/components/responses/Problem'
+        '429':
+          $ref: '#/components/responses/Problem'
+        '503':
+          $ref: '#/components/responses/Problem'
+      parameters:
+      - $ref: '#/components/parameters/RequestId'
+      - $ref: '#/components/parameters/IdempotencyKey'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CareRequestInput'
+  /prayer/requests:
+    post:
+      summary: Create prayer request metadata with protected content reference
+      tags:
+      - Prayer
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                type: object
+                additionalProperties: true
+        '400':
+          $ref: '#/components/responses/Problem'
+        '401':
+          $ref: '#/components/responses/Problem'
+        '403':
+          $ref: '#/components/responses/Problem'
+        '409':
+          $ref: '#/components/responses/Problem'
+        '422':
+          $ref: '#/components/responses/Problem'
+        '429':
+          $ref: '#/components/responses/Problem'
+        '503':
+          $ref: '#/components/responses/Problem'
+      parameters:
+      - $ref: '#/components/parameters/RequestId'
+      - $ref: '#/components/parameters/IdempotencyKey'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PrayerRequestInput'
+  /privacy/gateway/decisions:
+    post:
+      summary: Evaluate purpose/consent/scope/minimization policy
+      tags:
+      - Privacy Gateway
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GatewayDecision'
+        '400':
+          $ref: '#/components/responses/Problem'
+        '401':
+          $ref: '#/components/responses/Problem'
+        '403':
+          $ref: '#/components/responses/Problem'
+        '409':
+          $ref: '#/components/responses/Problem'
+        '422':
+          $ref: '#/components/responses/Problem'
+        '429':
+          $ref: '#/components/responses/Problem'
+        '503':
+          $ref: '#/components/responses/Problem'
+      security:
+      - serviceCredential:
+        - growth.bridge.write
+      parameters:
+      - $ref: '#/components/parameters/RequestId'
+      - $ref: '#/components/parameters/IdempotencyKey'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+              - request_or_event_ref
+              - purpose_code
+              properties:
+                request_or_event_ref:
+                  type: string
+                subject_link_ref:
+                  type:
+                  - string
+                  - 'null'
+                purpose_code:
+                  type: string
+                consent_ref:
+                  type:
+                  - string
+                  - 'null'
+                requested_profile_code:
+                  type: string
+  /integrations/chgo/events:
+    post:
+      summary: Submit eligible pseudonymous Church OS event to CHGO bridge
+      tags:
+      - CHGO Bridge
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                type: object
+                required:
+                - receipt_id
+                - status
+                properties:
+                  receipt_id:
+                    type: string
+                  status:
+                    type: string
+                  correlation_id:
+                    type: string
+        '400':
+          $ref: '#/components/responses/Problem'
+        '401':
+          $ref: '#/components/responses/Problem'
+        '403':
+          $ref: '#/components/responses/Problem'
+        '409':
+          $ref: '#/components/responses/Problem'
+        '422':
+          $ref: '#/components/responses/Problem'
+        '429':
+          $ref: '#/components/responses/Problem'
+        '503':
+          $ref: '#/components/responses/Problem'
+      description: Full member DB, real identity, unrestricted raw Life Diary/Care/Prayer text are out of contract.
+      security:
+      - serviceCredential:
+        - growth.bridge.write
+      parameters:
+      - $ref: '#/components/parameters/RequestId'
+      - $ref: '#/components/parameters/IdempotencyKey'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ChurchToCHGOEvent'
+  /integrations/chgo/requests/{request_id}:
+    get:
+      summary: Get bounded CHGO response/receipt
+      tags:
+      - CHGO Bridge
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/L2Response'
+        '400':
+          $ref: '#/components/responses/Problem'
+        '401':
+          $ref: '#/components/responses/Problem'
+        '403':
+          $ref: '#/components/responses/Problem'
+        '409':
+          $ref: '#/components/responses/Problem'
+        '422':
+          $ref: '#/components/responses/Problem'
+        '429':
+          $ref: '#/components/responses/Problem'
+        '503':
+          $ref: '#/components/responses/Problem'
+      security:
+      - serviceCredential:
+        - growth.bridge.read
+      parameters:
+      - $ref: '#/components/parameters/RequestId'
+      - name: request_id
+        in: path
+        required: true
+        schema:
+          type: string
+  /pastor/pulse:
+    get:
+      summary: Get pastor operational pulse
+      tags:
+      - Pastor
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                type: object
+                additionalProperties: true
+        '400':
+          $ref: '#/components/responses/Problem'
+        '401':
+          $ref: '#/components/responses/Problem'
+        '403':
+          $ref: '#/components/responses/Problem'
+        '409':
+          $ref: '#/components/responses/Problem'
+        '422':
+          $ref: '#/components/responses/Problem'
+        '429':
+          $ref: '#/components/responses/Problem'
+        '503':
+          $ref: '#/components/responses/Problem'
+      description: Operational aggregates only; protected personal growth data is not exposed.
+      parameters:
+      - $ref: '#/components/parameters/RequestId'
+  /pastor/community-growth:
+    post:
+      summary: Query approved CHGO community aggregate
+      tags:
+      - Pastor
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PastorAggregate'
+        '400':
+          $ref: '#/components/responses/Problem'
+        '401':
+          $ref: '#/components/responses/Problem'
+        '403':
+          $ref: '#/components/responses/Problem'
+        '409':
+          $ref: '#/components/responses/Problem'
+        '422':
+          $ref: '#/components/responses/Problem'
+        '429':
+          $ref: '#/components/responses/Problem'
+        '503':
+          $ref: '#/components/responses/Problem'
+      description: Aggregate-only query. Server applies minimum cohort, secondary suppression and privacy-rate policy.
+        Production threshold is policy-governed and intentionally unspecified.
+      security:
+      - userBearer: []
+      parameters:
+      - $ref: '#/components/parameters/RequestId'
+      - $ref: '#/components/parameters/IdempotencyKey'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+              - cohort_definition
+              - window
+              - metric_codes
+              properties:
+                cohort_definition:
+                  type: object
+                  additionalProperties: true
+                window:
+                  type: object
+                  required:
+                  - start
+                  - end
+                  properties:
+                    start:
+                      type: string
+                      format: date
+                    end:
+                      type: string
+                      format: date
+                metric_codes:
+                  type: array
+                  items:
+                    type: string
+  /headless/modules:
+    get:
+      summary: List modules granted to current headless client
+      tags:
+      - Headless
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+                  additionalProperties: true
+        '400':
+          $ref: '#/components/responses/Problem'
+        '401':
+          $ref: '#/components/responses/Problem'
+        '403':
+          $ref: '#/components/responses/Problem'
+        '409':
+          $ref: '#/components/responses/Problem'
+        '422':
+          $ref: '#/components/responses/Problem'
+        '429':
+          $ref: '#/components/responses/Problem'
+        '503':
+          $ref: '#/components/responses/Problem'
+      security:
+      - serviceCredential:
+        - church.core.read
+      parameters:
+      - $ref: '#/components/parameters/RequestId'
+  /headless/webhooks:
+    post:
+      summary: Create scoped webhook subscription
+      tags:
+      - Headless
+      - Webhooks
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                type: object
+                additionalProperties: true
+        '400':
+          $ref: '#/components/responses/Problem'
+        '401':
+          $ref: '#/components/responses/Problem'
+        '403':
+          $ref: '#/components/responses/Problem'
+        '409':
+          $ref: '#/components/responses/Problem'
+        '422':
+          $ref: '#/components/responses/Problem'
+        '429':
+          $ref: '#/components/responses/Problem'
+        '503':
+          $ref: '#/components/responses/Problem'
+      security:
+      - serviceCredential:
+        - webhook.manage
+      parameters:
+      - $ref: '#/components/parameters/RequestId'
+      - $ref: '#/components/parameters/IdempotencyKey'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/WebhookSubscription'
+components:
+  securitySchemes:
+    userBearer:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+    serviceCredential:
+      type: oauth2
+      flows:
+        clientCredentials:
+          tokenUrl: /oauth/token
+          scopes:
+            church.core.read: Read permitted Church OS operational resources
+            formation.write: Write permitted formation operations
+            mission.write: Write permitted mission operations
+            growth.bridge.write: Submit purpose-bound pseudonymous events to Privacy Gateway
+            growth.bridge.read: Read bounded CHGO responses
+            pastor.aggregate.read: Read approved aggregate-only pastor insights
+            webhook.manage: Manage tenant webhook subscriptions
+  parameters:
+    RequestId:
+      name: X-Request-Id
+      in: header
+      required: false
+      schema:
+        type: string
+    IdempotencyKey:
+      name: Idempotency-Key
+      in: header
+      required: true
+      schema:
+        type: string
+        minLength: 8
+        maxLength: 200
+    IfMatch:
+      name: If-Match
+      in: header
+      required: false
+      schema:
+        type: string
+  schemas:
+    Problem:
+      type: object
+      required:
+      - type
+      - title
+      - status
+      - code
+      - request_id
+      properties:
+        type:
+          type: string
+        title:
+          type: string
+        status:
+          type: integer
+        code:
+          type: string
+          enum:
+          - INVALID_REQUEST
+          - UNAUTHENTICATED
+          - POLICY_DENIED
+          - NOT_AVAILABLE
+          - STATE_CONFLICT
+          - CONTRACT_BLOCKED
+          - PRIVACY_RATE_LIMIT
+          - ENGINE_UNAVAILABLE
+          - SUPPRESSED
+          - HANDOFF
+        detail:
+          type: string
+        request_id:
+          type: string
+        policy_version:
+          type:
+          - string
+          - 'null'
+        correlation_id:
+          type:
+          - string
+          - 'null'
+    PageMeta:
+      type: object
+      properties:
+        next_cursor:
+          type:
+          - string
+          - 'null'
+    TodayAction:
+      type: object
+      required:
+      - id
+      - source_type
+      - priority_class
+      - action_route
+      - state
+      properties:
+        id:
+          type: string
+          format: uuid
+        source_type:
+          type: string
+        priority_class:
+          type: string
+        due_at:
+          type:
+          - string
+          - 'null'
+          format: date-time
+        action_route:
+          type: string
+        state:
+          type: string
+        privacy_class:
+          type: string
+        provenance:
+          type:
+          - object
+          - 'null'
+          additionalProperties: true
+    FormationPack:
+      type: object
+      required:
+      - id
+      - code
+      - version
+      - provider_type
+      - status
+      properties:
+        id:
+          type: string
+          format: uuid
+        code:
+          type: string
+        version:
+          type: string
+        provider_type:
+          type: string
+        default_locale:
+          type:
+          - string
+          - 'null'
+        status:
+          type: string
+    FormationJourney:
+      type: object
+      required:
+      - id
+      - code
+      - title
+      - version
+      - status
+      properties:
+        id:
+          type: string
+          format: uuid
+        pack_id:
+          type:
+          - string
+          - 'null'
+          format: uuid
+        code:
+          type: string
+        title:
+          type: string
+        version:
+          type: string
+        status:
+          type: string
+    Enrollment:
+      type: object
+      required:
+      - id
+      - journey_id
+      - status
+      - started_at
+      properties:
+        id:
+          type: string
+          format: uuid
+        journey_id:
+          type: string
+          format: uuid
+        status:
+          type: string
+        started_at:
+          type: string
+          format: date-time
+        completed_at:
+          type:
+          - string
+          - 'null'
+          format: date-time
+    ReflectionInput:
+      type: object
+      required:
+      - structured_response
+      - visibility_policy_id
+      properties:
+        activity_id:
+          type:
+          - string
+          - 'null'
+          format: uuid
+        visibility_policy_id:
+          type: string
+          format: uuid
+        structured_response:
+          type: object
+          additionalProperties: true
+        raw_content_vault_pointer:
+          type:
+          - string
+          - 'null'
+          description: Protected vault reference only; raw body MUST NOT be sent inline.
+        ai_processing_allowed:
+          type: boolean
+          default: false
+      additionalProperties: false
+    PracticeInput:
+      type: object
+      required:
+      - practice_type
+      - practice_state
+      - opportunity_state
+      - occurred_at
+      properties:
+        opportunity_id:
+          type:
+          - string
+          - 'null'
+          format: uuid
+        practice_type:
+          type: string
+        practice_state:
+          type: string
+        opportunity_state:
+          type: string
+          enum:
+          - AVAILABLE
+          - NO_OPPORTUNITY
+          - UNKNOWN
+          - NOT_APPLICABLE
+        occurred_at:
+          type: string
+          format: date-time
+        source_ref:
+          type:
+          - string
+          - 'null'
+    MissionProgram:
+      type: object
+      required:
+      - id
+      - code
+      - title
+      - status
+      properties:
+        id:
+          type: string
+          format: uuid
+        code:
+          type: string
+        title:
+          type: string
+        duration_days:
+          type:
+          - integer
+          - 'null'
+          minimum: 1
+        status:
+          type: string
+    MissionRun:
+      type: object
+      required:
+      - id
+      - program_id
+      - starts_on
+      - status
+      properties:
+        id:
+          type: string
+          format: uuid
+        program_id:
+          type: string
+          format: uuid
+        starts_on:
+          type: string
+          format: date
+        ends_on:
+          type:
+          - string
+          - 'null'
+          format: date
+        status:
+          type: string
+    CareRequestInput:
+      type: object
+      required:
+      - visibility_policy_id
+      - sensitivity_class
+      properties:
+        category:
+          type:
+          - string
+          - 'null'
+        visibility_policy_id:
+          type: string
+          format: uuid
+        sensitivity_class:
+          type: string
+          enum:
+          - STANDARD
+          - SENSITIVE
+          - HIGHLY_SENSITIVE
+        protected_content_vault_pointer:
+          type:
+          - string
+          - 'null'
+          description: No raw care note inline.
+      additionalProperties: false
+    PrayerRequestInput:
+      type: object
+      required:
+      - visibility_policy_id
+      - sensitivity_class
+      properties:
+        category:
+          type:
+          - string
+          - 'null'
+        visibility_policy_id:
+          type: string
+          format: uuid
+        sensitivity_class:
+          type: string
+          enum:
+          - STANDARD
+          - SENSITIVE
+          - HIGHLY_SENSITIVE
+        protected_content_vault_pointer:
+          type:
+          - string
+          - 'null'
+          description: No raw prayer body inline.
+      additionalProperties: false
+    GatewayDecision:
+      type: object
+      required:
+      - decision
+      - purpose_code
+      - policy_version
+      properties:
+        decision:
+          type: string
+          enum:
+          - ALLOW
+          - REDACT
+          - DENY
+          - SUPPRESS
+          - HANDOFF
+        purpose_code:
+          type: string
+        policy_version:
+          type: string
+        reason_code:
+          type:
+          - string
+          - 'null'
+        minimized_profile_code:
+          type:
+          - string
+          - 'null'
+        correlation_id:
+          type: string
+    ChurchToCHGOEvent:
+      type: object
+      required:
+      - event_id
+      - event_type
+      - schema_version
+      - tenant_ref
+      - subject_key
+      - purpose_code
+      - occurred_at
+      - source
+      - data
+      - trace
+      properties:
+        event_id:
+          type: string
+        event_type:
+          type: string
+          enum:
+          - formation.journey.started
+          - formation.unit.completed
+          - formation.reflection.submitted
+          - formation.practice.recorded
+          - formation.outcome.observed
+          - mission.participation.started
+          - mission.action.recorded
+          - group.connection.changed
+          - care.followup.status.changed
+          - growth.reflection.requested
+          - consent.revoked
+          - subject.deleted
+          - safety.handoff.requested
+        schema_version:
+          type: string
+        tenant_ref:
+          type: string
+        subject_key:
+          type: string
+        purpose_code:
+          type: string
+        consent_basis_ref:
+          type:
+          - string
+          - 'null'
+        occurred_at:
+          type: string
+          format: date-time
+        source:
+          type: object
+          required:
+          - system
+          - module
+          - source_event_id
+          properties:
+            system:
+              const: church_os
+            module:
+              type: string
+            source_event_id:
+              type: string
+          additionalProperties: false
+        context:
+          type: object
+          additionalProperties: true
+        data:
+          type: object
+          additionalProperties: true
+        trace:
+          type: object
+          required:
+          - correlation_id
+          - policy_version
+          - contract_version
+          properties:
+            correlation_id:
+              type: string
+            policy_version:
+              type: string
+            contract_version:
+              const: '1.0'
+          additionalProperties: false
+      additionalProperties: false
+    L2Response:
+      type: object
+      required:
+      - request_id
+      - status
+      - data
+      - provenance
+      - privacy
+      - trace
+      properties:
+        request_id:
+          type: string
+        status:
+          type: string
+          enum:
+          - OK
+          - PARTIAL
+          - SUPPRESSED
+          - DENIED
+          - HANDOFF
+        data:
+          type: object
+          additionalProperties: true
+        provenance:
+          type: object
+          required:
+          - ontology_release
+          - model_or_rule_version
+          - prompt_or_policy_version
+          - calculation_version
+          properties:
+            ontology_release:
+              type: string
+            model_or_rule_version:
+              type: string
+            prompt_or_policy_version:
+              type: string
+            calculation_version:
+              type: string
+        privacy:
+          type: object
+          properties:
+            coverage: {}
+            suppression_state:
+              type:
+              - string
+              - 'null'
+            purpose_code:
+              type: string
+        trace:
+          type: object
+          required:
+          - correlation_id
+          properties:
+            correlation_id:
+              type: string
+    PastorAggregate:
+      type: object
+      required:
+      - cohort_definition
+      - window
+      - coverage
+      - suppression_state
+      - provenance
+      properties:
+        cohort_definition:
+          type: object
+          additionalProperties: true
+        window:
+          type: object
+          required:
+          - start
+          - end
+          properties:
+            start:
+              type: string
+              format: date
+            end:
+              type: string
+              format: date
+        coverage: {}
+        suppression_state:
+          type: string
+        metric:
+          type:
+          - object
+          - 'null'
+          additionalProperties: true
+        recommended_action:
+          type:
+          - object
+          - 'null'
+          additionalProperties: true
+        provenance:
+          type: object
+          additionalProperties: true
+      description: Aggregate-only. MUST NOT contain person_id, subject_key, raw reflection, or personal evidence
+        links.
+    WebhookSubscription:
+      type: object
+      required:
+      - event_types
+      - endpoint_ref
+      properties:
+        event_types:
+          type: array
+          items:
+            type: string
+        endpoint_ref:
+          type: string
+        status:
+          type: string
+          default: ACTIVE
+  responses:
+    Problem:
+      description: Problem Details
+      content:
+        application/problem+json:
+          schema:
+            $ref: '#/components/schemas/Problem'

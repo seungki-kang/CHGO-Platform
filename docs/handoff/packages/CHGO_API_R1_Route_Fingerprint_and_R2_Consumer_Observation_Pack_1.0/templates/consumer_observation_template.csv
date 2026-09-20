@@ -1,0 +1,2 @@
+﻿observation_id,observed_at,environment,consumer_id,consumer_name,consumer_type,owner,api_major,method,path,operationId,evidence_source,evidence_ref,last_seen,status,notes
+OBS-EXAMPLE,,,,,,,,,,,,,,EVIDENCE_REQUIRED,Delete example row when actual evidence is entered
