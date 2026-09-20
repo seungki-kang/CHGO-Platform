@@ -1,0 +1,112 @@
+openapi: 3.1.0
+info:
+  title: CHGO Shared Identity Membership and Consent Contract
+  version: 1.0.0-candidate
+  description: Minimal cross-product contract. Membership never implies Vault access.
+paths:
+  /v1/identity/registrations:
+    post:
+      operationId: registerGlobalUser
+      responses:
+        "201":
+          description: Global user created
+  /v1/identity/sessions:
+    post:
+      operationId: createSession
+      responses:
+        "200":
+          description: Session created
+  /v1/me/products:
+    get:
+      operationId: listMyProducts
+      responses:
+        "200":
+          description: Product activation and consent states
+  /v1/churches/{church_id}/membership-requests:
+    post:
+      operationId: requestChurchMembership
+      parameters:
+        - name: church_id
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        "202":
+          description: Membership request pending
+  /v1/membership-invitations/{token}/accept:
+    post:
+      operationId: acceptMembershipInvitation
+      parameters:
+        - name: token
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          description: Membership activated; no Vault grant created
+  /v1/me/memberships:
+    get:
+      operationId: listMyMemberships
+      responses:
+        "200":
+          description: Membership list
+  /v1/memberships/{membership_id}/leave:
+    post:
+      operationId: leaveChurch
+      parameters:
+        - name: membership_id
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          description: Membership ended; global account retained
+  /v1/consents:
+    post:
+      operationId: grantProductConsent
+      responses:
+        "201":
+          description: Versioned product consent recorded
+  /v1/consents/{consent_id}/revoke:
+    post:
+      operationId: revokeProductConsent
+      parameters:
+        - name: consent_id
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          description: Future processing blocked
+  /v1/vault/grants:
+    post:
+      operationId: createVaultGrant
+      responses:
+        "201":
+          description: Purpose-bound and time-bound grant created
+  /v1/vault/grants/{grant_id}/revoke:
+    post:
+      operationId: revokeVaultGrant
+      parameters:
+        - name: grant_id
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          description: Grant revoked immediately
+x-chgo-invariants:
+  - id: INV-MEMBERSHIP-01
+    rule: membership_does_not_imply_vault_access
+  - id: INV-CONSENT-02
+    rule: revoked_consent_blocks_future_processing
+  - id: INV-GRANT-01
+    rule: vault_grant_requires_recipient_scope_purpose_and_expiry
+  - id: INV-API-01
+    rule: cross_product_database_access_is_forbidden
+

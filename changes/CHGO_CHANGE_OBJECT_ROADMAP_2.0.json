@@ -1,0 +1,11 @@
+{
+  "change_id": "CHGO-CO-ROADMAP-2.0",
+  "title": "Ecosystem master roadmap and executable backlog alignment",
+  "status": "CANDIDATE",
+  "date": "2026-09-21",
+  "authority": "A0_CROSS_LAYER_PLANNING",
+  "canonical_change": false,
+  "summary": "Aligns the post-GitHub baseline with independent products, shared identity, API integration and Life Diary-first delivery.",
+  "affected_domains": ["identity", "canonical", "ontology", "life-diary", "chgo-engine", "church-os", "bibleon", "prayer-platform", "integration", "regional-release"],
+  "next_gate": "F1_SHARED_IDENTITY_MEMBERSHIP_AND_PRODUCT_CONSENT_CONTRACT_1.0"
+}

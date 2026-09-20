@@ -1,5 +1,14 @@
 # CHANGELOG
 
+## 2.1 - 2026-09-21
+
+- Added CHGO Ecosystem Master Roadmap 2.0.
+- Added an executable backlog for shared identity, ontology runtime, Life Diary MVP, CHGO Engine, Church OS, BibleON and Prayer integration.
+- Established Life Diary-first implementation order and one-account product experience.
+- Preserved JesusLife Canonical and existing governance authority without semantic modification.
+- Identified F1 Shared Identity, Membership and Product Consent Contract 1.0 as the next official work item.
+- Added the F1 contract candidate and its minimal OpenAPI contract, covering one-account login, later church linking, product consent and Vault authorization separation.
+
 ## 2.0 - 2026-09-21
 
 - Promoted the clean E5 cloud candidate as the GitHub pre-development baseline candidate.
