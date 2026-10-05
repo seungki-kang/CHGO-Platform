@@ -1,0 +1,19 @@
+{
+  "change_id": "CHGO-JL-CORE-LD-2.2",
+  "status": "CANDIDATE",
+  "change_type": "ADDITIVE_MINOR",
+  "title": "JesusLife Canonical Registry and Life Diary Runtime Foundation",
+  "summary": "Adds source-governed canonical objects, Q2 meaning governance, JSON runtime schema, SQLite foundation, acceptance criteria, and validation.",
+  "breaking_change": false,
+  "canonical_ids_stable": true,
+  "raw_copyrighted_sources_added": false,
+  "author_review_required": true,
+  "privacy_review_required": true,
+  "rollback": "Remove only the files listed in INSTALL_JL_CORE_LD_2.2.md; no existing schema or data is altered.",
+  "dependencies": [
+    "JesusLife Canonical",
+    "CHGO Constitution 2",
+    "CHGO Core Philosophy 3",
+    "C-02 Production Privacy Policy"
+  ]
+}
