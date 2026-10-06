@@ -58,3 +58,11 @@
     final consolidated v2.
 -   Preserved MVP acceptance matrix as **NOT_RUN**, not evidence.
 -   Repository state set to **PRE-FREEZE CLEAN DEVELOPMENT REPOSITORY**.
+# JL-LD Flutter Integration Candidate 2.3 - 2026-10-06
+
+- Added the implementation-ready Flutter MVP integration contract.
+- Added a nine-item dependency-ordered Flutter implementation backlog linked to LD-001 through LD-015.
+- Added a machine-readable Flutter-to-Canonical/SQLite mapping.
+- Added a static validator for Canonical IDs, confession wording, privacy boundary, season size, backlog, and acceptance coverage.
+- Did not change Canonical IDs, Canonical wording, runtime schema 1.0.0, or SQLite V001.
+- Kept Flutter runtime proof `NOT_RUN` until tested in the actual application repository.
