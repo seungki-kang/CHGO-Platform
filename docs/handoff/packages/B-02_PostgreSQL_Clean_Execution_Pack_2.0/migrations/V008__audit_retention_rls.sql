@@ -29,6 +29,20 @@ BEGIN
  END LOOP;
 END $$;
 
+-- church_access.role mixes shared system roles (tenant_id NULL, seeded in V009) with tenant roles.
+-- The generic tenant_isolation policy hid every system role from tenant sessions. A single
+-- "tenant_id IS NULL OR ..." ALL policy is not safe either: it would let a tenant UPDATE or
+-- DELETE shared system roles. So reads include system roles; writes stay tenant-only.
+DROP POLICY IF EXISTS tenant_isolation ON church_access.role;
+CREATE POLICY role_read ON church_access.role FOR SELECT
+ USING (tenant_id IS NULL OR tenant_id=church_access.current_tenant_id());
+CREATE POLICY role_tenant_insert ON church_access.role FOR INSERT
+ WITH CHECK (tenant_id=church_access.current_tenant_id());
+CREATE POLICY role_tenant_update ON church_access.role FOR UPDATE
+ USING (tenant_id=church_access.current_tenant_id()) WITH CHECK (tenant_id=church_access.current_tenant_id());
+CREATE POLICY role_tenant_delete ON church_access.role FOR DELETE
+ USING (tenant_id=church_access.current_tenant_id());
+
 CREATE INDEX ix_outbox_pending ON church_integration.outbox_event(status,next_attempt_at) WHERE status='PENDING';
 CREATE INDEX ix_audit_tenant_time ON church_audit.audit_event(tenant_id,occurred_at DESC);
 CREATE INDEX ix_community_parent ON church_community.community(tenant_id,parent_id);
