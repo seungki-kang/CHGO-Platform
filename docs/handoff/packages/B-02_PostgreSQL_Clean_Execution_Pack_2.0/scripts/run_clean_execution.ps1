@@ -31,5 +31,7 @@ foreach ($File in $Files) {
 if ($LASTEXITCODE -ne 0) { throw "V010 replay failed" }
 & psql $DatabaseUrl -X -v ON_ERROR_STOP=1 -c "UPDATE b02_test.result SET status='PASS',detail='V010 replay exited 0' WHERE test_id='PHY-T11';" 2>&1 | Tee-Object -FilePath $Log -Append
 & psql $DatabaseUrl -X -P pager=off -c "TABLE b02_test.result ORDER BY test_id;" 2>&1 | Tee-Object -FilePath $Log -Append
-& psql $DatabaseUrl -X -P pager=off -c "select status,count(*) from church_os_test.test_result group by status order by status;" 2>&1 | Tee-Object -FilePath $Log -Append
+# V012 runs its contract tests inside a transaction that ends in ROLLBACK, so
+# church_os_test.test_result never persists. Its per-test results are printed in
+# the V012 section of this log, and any FAIL makes V012 (and this script) stop above.
 Write-Host "Apply and replay complete. B-02 remains OPEN until rollback/restore succeeds."
