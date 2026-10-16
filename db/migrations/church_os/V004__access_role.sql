@@ -3,7 +3,9 @@ BEGIN;
 CREATE TABLE church_access.role(
  id uuid PRIMARY KEY DEFAULT gen_random_uuid(), tenant_id uuid REFERENCES church_tenant.church(id) ON DELETE RESTRICT,
  code text NOT NULL, name text NOT NULL, scope_type text NOT NULL, is_system boolean NOT NULL DEFAULT false,
- UNIQUE(tenant_id,code));
+ -- System roles have tenant_id NULL. NULLS NOT DISTINCT (PostgreSQL 15+) keeps their codes unique
+ -- and lets V009's ON CONFLICT DO NOTHING fire, so re-running the seed does not duplicate roles.
+ UNIQUE NULLS NOT DISTINCT (tenant_id,code));
 CREATE TABLE church_access.permission(
  id uuid PRIMARY KEY DEFAULT gen_random_uuid(), code text NOT NULL UNIQUE, resource_type text NOT NULL,
  action text NOT NULL, sensitivity_max text NOT NULL DEFAULT 'STANDARD');

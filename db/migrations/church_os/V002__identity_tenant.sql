@@ -23,8 +23,9 @@ CREATE TABLE church_tenant.tenant_setting(
  PRIMARY KEY(tenant_id,setting_key));
 CREATE TABLE church_tenant.tenant_domain(
  id uuid PRIMARY KEY DEFAULT gen_random_uuid(), tenant_id uuid NOT NULL REFERENCES church_tenant.church(id) ON DELETE RESTRICT,
- hostname text NOT NULL, status text NOT NULL DEFAULT 'PENDING', verified_at timestamptz,
- UNIQUE(lower(hostname)));
+ hostname text NOT NULL, status text NOT NULL DEFAULT 'PENDING', verified_at timestamptz);
+-- Expression uniqueness must be an index: PostgreSQL rejects UNIQUE(lower(...)) as a table constraint.
+CREATE UNIQUE INDEX uq_tenant_domain_hostname_ci ON church_tenant.tenant_domain(lower(hostname));
 
 CREATE TABLE church_identity.account(
  id uuid PRIMARY KEY DEFAULT gen_random_uuid(), public_id varchar(64) NOT NULL UNIQUE, status text NOT NULL DEFAULT 'ACTIVE',
