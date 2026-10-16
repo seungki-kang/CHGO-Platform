@@ -22,6 +22,7 @@ Accordingly, each item below carries one of these states:
 | **PARTIAL (PR #1)** | Part of the item is implemented and executed in PR #1; the rest is not in the repository |
 | **PLANNED** | Not in the repository; not executed |
 | **PLANNED — RISK** | Not in the repository, and review found a defect or conflict in the described approach (Section 4) |
+| **REJECTED** | Not adopted by owner decision (Section 5) |
 
 ## 2. Status of "Corrected defects"
 
@@ -41,10 +42,10 @@ Items are numbered in the order they appear in Audit 2.4.
 | C-10 | Outboxes reject Life Diary `narrative` | PLANNED | Defect confirmed (`narrative` payload accepted in baseline) |
 | C-11 | Forced owner RLS on Vault version/grant/job tables; grant expiry mandatory | PLANNED | Defect confirmed |
 | C-12 | Missing-safe `current_setting(..., true)` | PLANNED | |
-| C-13 | Life Diary deleted sessions replaceable via partial active-session unique index | **PLANNED — RISK** | Conflicts with Flutter LD-FL-024 (R-02) |
+| C-13 | Life Diary deleted sessions replaceable via partial active-session unique index | **REJECTED** (LD-P1) | Conflicted with Flutter LD-FL-024 (R-02); application policy kept |
 | C-14 | Life Diary RESTORED event and UI draft persistence | PLANNED | Matches Flutter DB v2/v3 |
-| C-15 | Separate payload/privacy-class columns for narrative and selections | **PLANNED — RISK** | Diverges from the Flutter storage schema (R-03) |
-| C-16 | Flutter-shaped fixture validated, including empty Q6 `why` | **PLANNED — RISK** | Requires a Canonical meaning decision (R-04) |
+| C-15 | Separate payload/privacy-class columns for narrative and selections | **REJECTED** (LD-P1) | Would diverge from the Flutter storage schema (R-03) |
+| C-16 | Flutter-shaped fixture validated, including empty Q6 `why` | PLANNED — **accepted by LD-P1** | Owner decided the contract follows the application (R-04) |
 | C-17 | Canonical UI labels carried by ID in the Flutter projection | PLANNED | |
 | C-18 | Delta OpenAPI unique `operationId` values | PLANNED | All 20 Delta operations lack `operationId` on `main` |
 | C-19 | Shared identity contract: bearer security, request bodies, grant fields | PLANNED | |
@@ -124,16 +125,33 @@ Limiting application-role DML to RLS-protected tables is the safe choice. As a c
 
 C-01 to C-06 modify the same files and lines as PR #1. Both start from `9eda66f`, so applying them independently will conflict. Merge PR #1 first, then rebase the Audit 2.4 patch onto it.
 
-## 5. Decisions required
+## 5. Decisions
 
-| ID | Decision | Owner | Blocks |
-| --- | --- | --- | --- |
-| D-1 | Deleted Life Diary sessions: retain number (recommended) or allow reuse | Product + Life Diary engineering | C-13, Flutter LD-FL-024 |
-| D-2 | Q6 `why`: relax contract or require capture in the application | Canonical governance | C-16 |
-| D-3 | Migration and backup role design under FORCE RLS | Platform engineering + security | C-06 |
-| D-4 | Service role for identity and tenant tables | Platform engineering + security | C-07 |
-| D-5 | Flutter database v4 migration plan for split payload columns | Life Diary engineering | C-15 |
-| D-6 | Merge order: PR #1 first, then rebase Audit 2.4 | Repository owner | C-01–C-06 |
+| ID | Decision | Owner | Blocks | Status |
+| --- | --- | --- | --- | --- |
+| D-1 | Deleted Life Diary sessions: retain number or allow reuse | Product + Life Diary engineering | C-13, Flutter LD-FL-024 | **DECIDED** (LD-P1): retain number, as the application does |
+| D-2 | Q6 `why`: relax contract or require capture in the application | Canonical governance | C-16 | **DECIDED** (LD-P1): follow the application; the contract accepts an empty `why` |
+| D-3 | Migration and backup role design under FORCE RLS | Platform engineering + security | C-06 | OPEN |
+| D-4 | Service role for identity and tenant tables | Platform engineering + security | C-07 | OPEN |
+| D-5 | Flutter database v4 migration plan for split payload columns | Life Diary engineering | C-15 | **DECIDED** (LD-P1): no split; the contract keeps the application's storage. No Flutter v4 migration is required for this item |
+| D-6 | Merge order: PR #1 first, then rebase Audit 2.4 | Repository owner | C-01–C-06 | **DECIDED**: PR #1 merged first |
+
+### LD-P1 Life Diary follows the application (owner decision, 2026-10-17)
+
+The repository owner has reviewed the Flutter Life Diary application in full and decided:
+
+> The Life Diary contract follows the application. Where the platform contract and the application differ, the application is the source of truth.
+
+Consequences:
+
+- **Source of truth.** For Life Diary, the order is: application → platform contract (`ontology/schemas/life-diary-runtime-schema-v1.json`, `ontology/projections/life-diary-flutter-mapping-v1.json`, `db/migrations/life_diary/`) → validators. The platform artifacts are aligned to the application, not the reverse.
+- **C-13 is rejected.** Deleted sessions keep their number and remain restorable, as implemented in the application by LD-FL-024. The partial active-session unique index is not adopted. R-02 is closed.
+- **C-15 is rejected.** The application's combined `payload_json` and `privacy_class` storage is kept. R-03 is closed.
+- **C-16 is accepted in the application's form.** The contract accepts the application's Q6 records, including an empty `why`. R-04 is closed by owner decision.
+- **C-14 and C-17 are retained.** The RESTORED event, UI draft persistence, and ID-carried UI labels already match the application.
+- **Follow-up.** Aligning the platform Life Diary artifacts to the application is a design task. It is not part of this review and no code is changed here.
+
+This decision does not change Canonical wording. It records that the runtime contract follows the application as reviewed by the owner.
 
 ## 6. Closure conditions for Audit 2.4
 
@@ -142,7 +160,7 @@ Audit 2.4 may be marked closed only when all of the following hold:
 1. The Audit 2.4 patch is committed to this repository on top of PR #1.
 2. The E5 job passes on that commit, including a non-superuser execution step (R-01).
 3. Cross-tenant negative tests run as a non-owner role and their output is attached as evidence (C-08).
-4. D-1 to D-5 are recorded as decisions.
+4. D-3 and D-4 are recorded as decisions. (D-1, D-2, D-5 and D-6 are decided in Section 5.)
 5. The open items listed in Audit 2.4 itself remain open until their own evidence exists.
 
 This review does not change Audit 2.4, Canonical wording, or Governance meaning.
