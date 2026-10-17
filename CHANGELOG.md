@@ -1,5 +1,13 @@
 # CHANGELOG
 
+## 3.0 - 2026-10-17
+
+- Repository renamed from `CHGO-Platform` to `JesusLife-Church-OS` and narrowed to Church OS.
+- Removed 192 files that belong to the CHGO engine, Life Diary or other products. They remain in history at `b64dd9a`. See `docs/governance/Repository_Split_Record_2026-10-17.md`.
+- Moved ADR-LD01 (Life Diary role separation) to `CHGO-Life-Diary-Flutter`.
+- Retired E5 suites E5-R01 (CHGO repository structure freeze) and E5-R05 (PDV-008 Vault).
+- Rewrote `README.md`, `START_HERE.md` and `STRUCTURE_GUIDE.md` for Church OS.
+
 ## 2.1 - 2026-09-21
 
 - Added CHGO Ecosystem Master Roadmap 2.0.

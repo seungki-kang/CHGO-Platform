@@ -1,7 +1,9 @@
-# Cross-Platform Contracts
+# Cross-Product Contracts (Church OS consumer copies)
 
-This area is reserved for product-neutral identity, consent, OpenAPI, event and webhook contracts connecting CHGO Engine, Scripture, Prayer and Church OS.
+Contracts that connect Church OS with other JesusLife One products. Church OS consumes them; it does not own them.
 
-No contract in this folder may grant direct cross-domain database access.
+| Contract | Owner |
+| --- | --- |
+| `shared-identity-membership-consent-v1.yaml` | JesusLife One (moves there when that repository exists) |
 
-Status: RESERVED FOR CONTROLLED ADMISSION
+No contract here may grant direct cross-product database access.
