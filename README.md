@@ -1,13 +1,23 @@
-# CHGO Platform
+# JesusLife Church OS
 
-Repository state: GITHUB PRE-DEVELOPMENT BASELINE CANDIDATE 2.0
+Church OS is the white-label church app of the JesusLife One platform. Each church that joins gets its own branded app and uses it as the space its community needs: membership, groups, care, formation, mission, prayer requests and church operations.
 
-This is the single organized development root for CHGO Platform. JesusLife Canonical remains the highest meaning authority. The repository structure separates meaning, ontology, runtime services, Church OS applications, privacy boundaries, tests, evidence, localization and release governance.
+This repository holds Church OS only. It was renamed from `CHGO-Platform` on 2026-10-17. The CHGO engine and Life Diary now live in their own repositories and connect to Church OS by API. See `docs/governance/Repository_Split_Record_2026-10-17.md` for what moved where and what is still mixed.
 
-CHGO Engine, Scripture, Prayer and Church OS are independent product domains connected through versioned APIs, events, consent and shared identity contracts. They remain in one modular monorepo during the initial development stage; independent deployment and later repository extraction remain possible.
+## The platform
 
-Read `START_HERE.md` and `STRUCTURE_GUIDE.md` first.
+| Product | Repository | Role |
+| --- | --- | --- |
+| JesusLife One | (planned) | Unified ID and consent across all products |
+| **Church OS** | **`JesusLife-Church-OS`** | White-label church app |
+| CHGO | `CHGO` | JesusLife textbook ontology, academy, question bank, community health measurement engine |
+| Life Diary | `CHGO-Life-Diary-Flutter` | Personal diary; raw text never leaves it without the user's permission |
+| 성경통독 네트워크, 중보기도 네트워크, 너랑나랑 | Separate repositories | Connected by API |
 
-Final Development Baseline freeze is not yet approved. Static E5, B-04, PDV-008 and C-02 structure checks pass, while runtime regression, live database execution, rollback proof, approvals and regional privacy packs retain their recorded OPEN or NOT_RUN states.
+Church OS never reads another product's database. Pastors see community aggregates only, never an individual's diary or growth record.
 
-See `docs/adr/CHGO_Cross-Platform_Modular_Monorepo_ADR_1.0.md` for product boundaries and `docs/governance/CHGO_GitHub_Baseline_Admission_Report_2.0.md` for the source-admission decision.
+## State
+
+Pre-development. Static checks pass (B-04 OpenAPI, C-02 privacy policy, E5 static regression). The PostgreSQL migrations V001–V012 passed 12 of 12 tests in a local replay of the E5 workflow on PostgreSQL 16; the GitHub Actions run itself has not been recorded as evidence yet. Runtime API tests, approvals and regional privacy packs remain OPEN or NOT_RUN.
+
+Read `START_HERE.md` first.

@@ -14,7 +14,7 @@ E5 proves that repository, database, API, security/privacy and Vault changes can
 2. Run `python tools/validation/validate_e5_regression.py`.
 3. Confirm repository and policy static checks are `PASS`.
 4. In an approved disposable environment, execute B-02 PostgreSQL clean execution.
-5. Execute B-03 acceptance/security tests, B-04 API runtime tests and PDV-008 runtime tests.
+5. Execute B-03 acceptance/security tests and B-04 API runtime tests. (PDV-008 Vault tests were retired from E5 on 2026-10-17; Vault belongs to the Life Diary backup service.)
 6. Record commands, start/end UTC, environment ID, commit/archive hash, test counts and immutable logs.
 7. If any blocking check fails, stop promotion and execute the rollback decision tree.
 
