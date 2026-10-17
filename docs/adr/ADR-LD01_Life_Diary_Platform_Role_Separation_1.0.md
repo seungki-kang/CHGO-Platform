@@ -1,6 +1,6 @@
 # ADR-LD01 Life Diary and CHGO Platform Role Separation 1.0
 
-Status: **PROPOSED** — four decisions (LD-D1 to LD-D4) are open  
+Status: **PROPOSED** — LD-D1, LD-D5, LD-D6, LD-D7 decided; LD-D2 to LD-D4 open  
 Date: 2026-10-17  
 Companion: `docs/adr/ADR-LD01_Life_Diary_Producer_Responsibilities_1.0.md` in `CHGO-Life-Diary-Flutter`  
 Related: `CHGO_Cross-Platform_Modular_Monorepo_ADR_1.0.md`, Review 1.0 of Audit 2.4 (decision LD-P1), `JL-LD-002_Flutter_MVP_Integration_Contract_1.0.md`  
@@ -41,7 +41,7 @@ The design therefore assumes all three safeguards: **separate consent, pseudonym
 
 ### 2.1 Roles
 
-| | Life Diary (application, and an optional Life Diary-only server) | CHGO Platform (engine) |
+| | Life Diary (application, and the end-to-end encrypted backup service of LD-D1) | CHGO Platform (engine) |
 | --- | --- | --- |
 | Owns | Raw text, selections, drafts, revisions, consent records | No raw text. Consented, pseudonymized signals and the aggregates built from them |
 | Does | Write, edit, delete, restore; manage consent; build export signals | Accept signals, aggregate per community, suppress small cohorts, show community trends |
@@ -100,29 +100,53 @@ This supersedes, for Life Diary, the JL-LD-002 statement that CHGO owns "schema 
 | 2. Separate contract repository | Shared repository for API contracts only | Revisit when more producers exist |
 | 3. Platform owns the contract | Life Diary conforms to Platform | Rejected; contradicts LD-P1 |
 
-## 4. Repository relocation (planned, not executed)
+## 4. Repository relocation (executed 2026-10-17)
 
-No file is moved by this ADR. Relocation happens after LD-D1 to LD-D4 are decided.
+Executed under LD-D6 from commit `f44e3a1`. Each moved file is replaced here by `<file>.MOVED.md`, which records its new path, last SHA-256 here, and reason. Every notice was checked against the Life Diary copy. Only the schema and mapping differ, because they were aligned to the application under LD-P1.
 
-| Platform path | Target | Condition |
+### 4.1 Moved
+
+| Platform path | Life Diary path |
+| --- | --- |
+| `ontology/schemas/life-diary-runtime-schema-v1.json` | `contracts/life-diary/` (aligned: Q6 `why` may be empty) |
+| `ontology/projections/life-diary-flutter-mapping-v1.json` | `contracts/life-diary/` (aligned: storage authority is the application) |
+| `db/migrations/life_diary/V001__life_diary_sqlite_foundation.sql` | `contracts/life-diary/legacy/` (history only) |
+| `docs/product/JL-LD-001`, `JL-LD-002`, `JL-LD-003` | `docs/product/` |
+| `tests/acceptance/life-diary/LIFE_DIARY_MVP_ACCEPTANCE_1.0.csv` | `docs/qa/` |
+| `docs/privacy-security/PDV-006_*` | `docs/privacy/` |
+| `docs/privacy-security/PDV-002_*`, `PDV-005_*`, `CHGO_Personal_Data_Vault_and_Life_Diary_Storage_Architecture_1.0.docx`; `docs/architecture/PDV-003_*`, `PDV-004_*`, `PDV-007_*`; `db/migrations/chgo/PDV-003_*.sql` | `docs/backup-service/platform-era/` (input only; see LD-D1) |
+| `tools/validation/validate_jl_life_diary_*.py` | Replaced by `tools/contract/validate_life_diary_contract.py` |
+
+### 4.2 Kept in Platform
+
+- `canonical/sources/JESUSLIFE_CANONICAL_OBJECT_REGISTER_1.0.csv`: the Canonical original. Life Diary keeps a pinned copy (LD-D7).
+- `docs/privacy-security/CHGO_Identity_Tenant_and_Personal_Vault_Boundary_Specification_1.0.docx`: identity and tenant boundaries are a Platform concern.
+
+### 4.3 Remaining in Platform, pending extraction
+
+These belong to the Life Diary backup and sharing service. They are tied to Platform gates (B-04, B-03/E5 static regression), so they stay until those gates are re-baselined:
+
+- Vault and coach-sharing endpoints in `api/openapi/v2/CHGO_Public_and_Headless_OpenAPI_v2_Consolidated_Baseline_1.0.yaml`: 23 `/me/vaults*` operations, 2 `/coach/shared-vault-resources*` operations, 2 `/integrations/vault/*` operations. These are checked by `validate_b04_openapi.py` and the PDV-008 static validation.
+- `tests/acceptance/pdv008/`, `tests/acceptance/PDV-008_*.docx`, `releases/manifests/CHGO_PDV008_*`.
+- The R4 Vault part of `docs/handoff/packages/CHGO_API_R3_Auth_and_R4_Vault_Privacy_Negative_Test_Pack_1.0/` and `tests/security/CHGO_API_R3_Auth_and_R4_Vault_Privacy_Negative_Test_Pack_1.0.docx`.
+
+Until extracted, these endpoints are **not** a Platform commitment. Their design is superseded by the end-to-end encryption requirement of LD-D1.
+
+## 5. Decisions
+
+### 5.1 Decided (product owner, 2026-10-17)
+
+| ID | Decision | Consequence |
 | --- | --- | --- |
-| `ontology/schemas/life-diary-runtime-schema-v1.json` | Life Diary | — |
-| `ontology/projections/life-diary-flutter-mapping-v1.json` | Life Diary | — |
-| `db/migrations/life_diary/V001__life_diary_sqlite_foundation.sql` | Life Diary (or retire; the application's `lib/data/life_diary_database.dart` is authoritative) | — |
-| `docs/product/JL-LD-001_Life_Diary_Runtime_Schema_1.0.md` | Life Diary | — |
-| `docs/product/JL-LD-002_Flutter_MVP_Integration_Contract_1.0.md` | Life Diary, rewritten as the export signal contract | — |
-| `docs/product/JL-LD-003_Flutter_MVP_Implementation_Backlog_1.0.csv` | Life Diary | — |
-| `tests/acceptance/life-diary/LIFE_DIARY_MVP_ACCEPTANCE_1.0.csv` | Life Diary | — |
-| `tools/validation/validate_jl_life_diary_*.py` | Replaced by Life Diary tests, plus a Platform consumer-contract test | — |
-| `docs/privacy-security/PDV-006_Life_Diary_Retention_Deletion_and_Export_Policy_1.0.docx` | Life Diary | Owner of raw data owns retention |
-| `db/migrations/chgo/PDV-003_*.sql`, `docs/architecture/PDV-00*`, `docs/privacy-security/CHGO_Personal_Data_Vault_and_Life_Diary_Storage_Architecture_1.0.docx`, `/me/vaults/*` | Depends on LD-D1 | Out of Platform scope if raw text never leaves Life Diary |
-| `canonical/sources/JESUSLIFE_CANONICAL_OBJECT_REGISTER_1.0.csv` | Stays in Platform | Life Diary pins a version |
+| LD-D1 | **(b) Backup on a Life Diary-only server.** Owner requirement: *users must be certain that no one can see their diary unless they allow it.* | Backup is end-to-end encrypted with keys held only on the user's devices. The backup server, Life Diary operators, church staff, and CHGO Platform cannot decrypt. There is no operator recovery and no break-glass access. Option (c) is rejected. The Platform-era vault design (server-side KMS decryption, break-glass) does not meet the requirement and is kept only as input. Requirements: `CHGO-Life-Diary-Flutter/docs/backup-service/README.md` |
+| LD-D5 | **Coach sharing is offered.** The user grants access, and the coach reads the shared content and coaches. | Each share names the coach, scope, purpose and expiry. Content is encrypted to the coach on the user's device and is revocable. The user sees grants and an access log. Shared content never reaches the CHGO engine. It is a Life Diary feature, not a Platform one |
+| LD-D6 | **(b) Relocate**, leaving "moved" notices in Platform | Executed (Section 4) |
+| LD-D7 | **(a) Life Diary keeps a pinned copy** of the Canonical register | Executed. The original stays in Platform; the Life Diary validator fails if the copy diverges from its pin |
 
-## 5. Open decisions
+### 5.2 Open
 
 | ID | Question | Options | Recommendation | Owner |
 | --- | --- | --- | --- | --- |
-| LD-D1 | Does raw diary text leave the device? | (a) Device only, with user-triggered export. (b) Backup on a Life Diary-only server. (c) Platform vault (current PDV design) | (a) now, (b) later if needed; not (c) | Product owner |
 | LD-D2 | How is separate consent for sensitive information obtained and withdrawn? | (a) One consent covering all signals. (b) Per-category consent (activity counts vs. selection distributions). Withdrawal: stop future signals only, or also delete contributions not yet aggregated | (b), with withdrawal stopping future signals and deleting unaggregated contributions | Product owner + counsel |
 | LD-D3 | Minimum cohort size for any published aggregate | Policy value (k) plus secondary suppression; Platform currently leaves it OPEN | Decide with counsel; record with C-02 privacy policy | Product owner + counsel |
 | LD-D4 | How is an application user linked to a church community? | (a) Community join code entered by the user. (b) Invitation from the church. (c) Shared CHGO identity account. Identity contract must not merge accounts by email (Monorepo ADR rule 4) | (a) or (b) for MVP, producing a per-community pseudonym; (c) later | Product owner + Platform engineering |
@@ -138,10 +162,10 @@ No file is moved by this ADR. Relocation happens after LD-D1 to LD-D4 are decide
 
 This ADR moves from PROPOSED to ACCEPTED when:
 
-1. LD-D1 to LD-D4 are decided and recorded here.
+1. LD-D2 to LD-D4 are decided and recorded here. (LD-D1 and LD-D5 to LD-D7 are decided.)
 2. The Life Diary export signal contract 1.0 is published in `CHGO-Life-Diary-Flutter` (API/event contract).
-3. The user-to-community link from LD-D4 is specified (identity contract).
-4. Section 4 is executed or explicitly deferred (data ownership).
+3. The user-to-community link from LD-D4 is specified (identity contract). Coach identity for LD-D5 depends on it.
+4. Section 4.3 is extracted or explicitly deferred with B-04 re-baselined (data ownership). Sections 4.1 and 4.2 are done.
 5. The migration path for existing application data and a rollback plan for the first transmission release are written.
 6. Counsel review of Section 1.3 and LD-D2/LD-D3 is recorded.
 
